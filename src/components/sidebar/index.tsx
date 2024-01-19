@@ -1,4 +1,6 @@
 "use client";
+import Image from "next/image";
+import Link from "next/link";
 import { cn } from "@/lib/utils";
 import classNames from "classnames";
 import { Button } from "@/components/ui/button";
@@ -7,7 +9,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { Playlist } from "../../data/playlist";
+import { GetSpotifyPlaylist } from "../../interface/playlist";
+import { SpotifyUser } from "../../interface/user";
 
 import {
   FaAnglesLeft,
@@ -16,14 +19,15 @@ import {
   FaRegUser,
 } from "react-icons/fa6";
 import { RiPlayListLine } from "react-icons/ri";
-import { BiLogOut, BiLibrary } from "react-icons/bi";
+import { BiLogOut, BiLibrary, BiStats } from "react-icons/bi";
 import { LuMusic2, LuMic2 } from "react-icons/lu";
 
-interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
-  playlists: Playlist[];
+interface SidebarProps{
+  playlists: GetSpotifyPlaylist[];
+  // users: SpotifyUser;
 }
 
-export function Sidebar({ className, playlists }: SidebarProps) {
+export function Sidebar({ playlists }: SidebarProps) {
   const pathname = usePathname();
 
   const isLoginPage = pathname === "/login";
@@ -48,12 +52,12 @@ export function Sidebar({ className, playlists }: SidebarProps) {
     setToggleCollapse(!toggleCollapse);
   };
 
-  const router = useRouter()
+  const router = useRouter();
 
   const Logout = () => {
-    window.localStorage.removeItem("token")
-    router.push('/login')
-  }
+    window.localStorage.removeItem("token");
+    router.push("/login");
+  };
 
   return (
     <div
@@ -63,13 +67,29 @@ export function Sidebar({ className, playlists }: SidebarProps) {
       <div className='flex flex-col'>
         <div className='flex items-center justify-between relative'>
           <div className='flex items-center pl-2 gap-4'>
-            <span
-              className={classNames("mt-2 text-lg font-medium text-text", {
-                hidden: toggleCollapse,
-              })}
-            >
-              User Profile
-            </span>
+            {/* {!!users && (
+              <section className='flex'>
+                <Image
+                  loading='lazy'
+                  src={users.images?.[0].url}
+                  alt='User photo profile'
+                  width={100}
+                  height={100}
+                  className='rounded-full mr-3 shadow-black shadow-sm'
+                />
+                <h1 className='text-xl md:text-3xl text-white'>
+                  {users.display_name}
+                  <Link
+                    href={users.external_urls.spotify}
+                    target='_blank'
+                    rel='noopener noreferrer'
+                    className='font-gotham text-green-600'
+                  >
+                    Spotify
+                  </Link>
+                </h1>
+              </section>
+            )} */}
           </div>
           <Button variant='ghost' onClick={handleSidebarToggle}>
             {toggleCollapse ? (
@@ -81,7 +101,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
         </div>
 
         {!toggleCollapse && (
-          <div className={cn("pb-12", className)}>
+          <div className={cn("pb-12", classNames)}>
             <div className='space-y-4 py-4'>
               <div className='px-3 py-2'>
                 <h2 className='mb-2 px-4 text-lg font-semibold tracking-tight'>
@@ -94,6 +114,12 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                       Listen Now
                     </span>
                   </Button>
+                  <Button variant='ghost' className='w-full justify-start'>
+                    <span className='flex gap-5 items-center'>
+                      <BiStats />
+                      Stats
+                    </span>
+                  </Button>
                 </div>
               </div>
               <div className='px-3 py-2'>
@@ -101,12 +127,6 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                   Library
                 </h2>
                 <div className='space-y-1'>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <RiPlayListLine />
-                      Playlist
-                    </span>
-                  </Button>
                   <Button variant='ghost' className='w-full justify-start'>
                     <span className='flex gap-5 items-center'>
                       <LuMusic2 />
@@ -139,15 +159,15 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 </h2>
                 <ScrollArea className='h-[300px] px-1'>
                   <div className='space-y-1 p-2'>
-                    {playlists?.map((playlist, i) => (
+                    {playlists.map((playlist) => (
                       <Button
-                        key={`${playlist}-${i}`}
+                        key={`${playlist}-${playlist.id}`}
                         variant='ghost'
                         className='w-full justify-start font-normal'
                       >
                         <span className='flex gap-5 items-center'>
                           <RiPlayListLine />
-                          {playlist}
+                          {playlist.name}
                         </span>
                       </Button>
                     ))}
@@ -160,7 +180,11 @@ export function Sidebar({ className, playlists }: SidebarProps) {
       </div>
 
       <div className={`pl-2 py-4`}>
-        <Button variant='ghost' className='w-full justify-start font-normal' onClick={Logout}>
+        <Button
+          variant='ghost'
+          className='w-full justify-start font-normal'
+          onClick={Logout}
+        >
           {!toggleCollapse && (
             <span
               className={classNames(
