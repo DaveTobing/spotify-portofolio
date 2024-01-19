@@ -14,9 +14,8 @@
 
 // import { AlbumArtwork } from "./components/album-artwork"
 // import { Menu } from "./components/menu"
-// import { PodcastEmptyPlaceholder } from "./components/podcast-empty-placeholder"
-// import { listenNowAlbums, madeForYouAlbums } from "./data/albums"
-// import { playlists } from "./data/playlists"
+// // import { madeByYouAlbums } from "../api/album"
+// // import { playlists } from "../api/playlist"
 
 // export const metadata: Metadata = {
 //   title: "Music App",

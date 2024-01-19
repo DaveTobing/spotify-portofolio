@@ -5,7 +5,7 @@ import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
 
 import React, { useState } from "react";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 
 import { Playlist } from "../../data/playlist";
 
@@ -26,12 +26,11 @@ interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
 export function Sidebar({ className, playlists }: SidebarProps) {
   const pathname = usePathname();
 
-  const isLoginPage = pathname === "/auth/login";
-  const isRegisterPage = pathname === "/auth/register";
+  const isLoginPage = pathname === "/login";
   const isHomePage = pathname === "/";
 
   // If on the login or register page, don't render the navbar
-  if (isLoginPage || isRegisterPage || isHomePage) {
+  if (isLoginPage || isHomePage) {
     return null;
   }
 
@@ -49,12 +48,19 @@ export function Sidebar({ className, playlists }: SidebarProps) {
     setToggleCollapse(!toggleCollapse);
   };
 
+  const router = useRouter()
+
+  const Logout = () => {
+    window.localStorage.removeItem("token")
+    router.push('/login')
+  }
+
   return (
     <div
       className={wrapperClasses}
       style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
     >
-      <div className='flex flex-col bg-red-300'>
+      <div className='flex flex-col'>
         <div className='flex items-center justify-between relative'>
           <div className='flex items-center pl-2 gap-4'>
             <span
@@ -154,7 +160,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
       </div>
 
       <div className={`pl-2 py-4`}>
-        <Button variant='ghost' className='w-full justify-start font-normal'>
+        <Button variant='ghost' className='w-full justify-start font-normal' onClick={Logout}>
           {!toggleCollapse && (
             <span
               className={classNames(
