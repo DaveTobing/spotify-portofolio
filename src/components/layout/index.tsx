@@ -6,9 +6,11 @@ import { playlists } from "@/data/playlist";
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   return (
-    <div className="h-screen flex flex-col justify-start">
-      <Sidebar playlists={playlists}/>
-      <div className='min-h-screen'>{children}</div>
+    <div className="h-screen flex flex-col">
+      <div className="flex flex-row">
+        <Sidebar playlists={playlists}/>
+        <div className='flex-grow'>{children}</div>
+      </div>
       <Footer />
     </div>
   );

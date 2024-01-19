@@ -2,7 +2,9 @@ import React from 'react'
 
 const Account = () => {
   return (
-    <div>index</div>
+    <div className='bg-blue-300'>
+      qweqwewe
+    </div>
   )
 }
 

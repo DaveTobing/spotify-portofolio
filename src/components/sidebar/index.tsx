@@ -1,20 +1,40 @@
 "use client";
-
 import { cn } from "@/lib/utils";
 import classNames from "classnames";
 import { Button } from "@/components/ui/button";
 import { ScrollArea } from "@/components/ui/scroll-area";
+
 import React, { useState } from "react";
-import { FaAnglesLeft, FaAnglesRight } from "react-icons/fa6";
-import { BiLogOut } from "react-icons/bi";
+import { usePathname } from "next/navigation";
 
 import { Playlist } from "../../data/playlist";
+
+import {
+  FaAnglesLeft,
+  FaAnglesRight,
+  FaCirclePlay,
+  FaRegUser,
+} from "react-icons/fa6";
+import { RiPlayListLine } from "react-icons/ri";
+import { BiLogOut, BiLibrary } from "react-icons/bi";
+import { LuMusic2, LuMic2 } from "react-icons/lu";
 
 interface SidebarProps extends React.HTMLAttributes<HTMLDivElement> {
   playlists: Playlist[];
 }
 
 export function Sidebar({ className, playlists }: SidebarProps) {
+  const pathname = usePathname();
+
+  const isLoginPage = pathname === "/auth/login";
+  const isRegisterPage = pathname === "/auth/register";
+  const isHomePage = pathname === "/";
+
+  // If on the login or register page, don't render the navbar
+  if (isLoginPage || isRegisterPage || isHomePage) {
+    return null;
+  }
+
   const [toggleCollapse, setToggleCollapse] = useState(false);
 
   const wrapperClasses = classNames(
@@ -34,7 +54,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
       className={wrapperClasses}
       style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
     >
-      <div className='flex flex-col'>
+      <div className='flex flex-col bg-red-300'>
         <div className='flex items-center justify-between relative'>
           <div className='flex items-center pl-2 gap-4'>
             <span
@@ -42,7 +62,7 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 hidden: toggleCollapse,
               })}
             >
-              Logo
+              User Profile
             </span>
           </div>
           <Button variant='ghost' onClick={handleSidebarToggle}>
@@ -63,20 +83,10 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 </h2>
                 <div className='space-y-1'>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <circle cx='12' cy='12' r='10' />
-                      <polygon points='10 8 16 12 10 16 10 8' />
-                    </svg>
-                    Listen Now
+                    <span className='flex gap-5 items-center'>
+                      <FaCirclePlay />
+                      Listen Now
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -86,89 +96,34 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                 </h2>
                 <div className='space-y-1'>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <path d='M21 15V6' />
-                      <path d='M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
-                      <path d='M12 12H3' />
-                      <path d='M16 6H3' />
-                      <path d='M12 18H3' />
-                    </svg>
-                    Playlists
+                    <span className='flex gap-5 items-center'>
+                      <RiPlayListLine />
+                      Playlist
+                    </span>
                   </Button>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <circle cx='8' cy='18' r='4' />
-                      <path d='M12 18V2l7 4' />
-                    </svg>
-                    Songs
+                    <span className='flex gap-5 items-center'>
+                      <LuMusic2 />
+                      Songs
+                    </span>
                   </Button>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <path d='M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2' />
-                      <circle cx='12' cy='7' r='4' />
-                    </svg>
-                    Made for You
+                    <span className='flex gap-5 items-center'>
+                      <FaRegUser />
+                      Made for You
+                    </span>
                   </Button>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <path d='m12 8-9.04 9.06a2.82 2.82 0 1 0 3.98 3.98L16 12' />
-                      <circle cx='17' cy='7' r='5' />
-                    </svg>
-                    Artists
+                    <span className='flex gap-5 items-center'>
+                      <LuMic2 />
+                      Artists
+                    </span>
                   </Button>
                   <Button variant='ghost' className='w-full justify-start'>
-                    <svg
-                      xmlns='http://www.w3.org/2000/svg'
-                      viewBox='0 0 24 24'
-                      fill='none'
-                      stroke='currentColor'
-                      strokeWidth='2'
-                      strokeLinecap='round'
-                      strokeLinejoin='round'
-                      className='mr-2 h-4 w-4'
-                    >
-                      <path d='m16 6 4 14' />
-                      <path d='M12 6v14' />
-                      <path d='M8 8v12' />
-                      <path d='M4 4v16' />
-                    </svg>
-                    Albums
+                    <span className='flex gap-5 items-center'>
+                      <BiLibrary />
+                      Albums
+                    </span>
                   </Button>
                 </div>
               </div>
@@ -184,23 +139,10 @@ export function Sidebar({ className, playlists }: SidebarProps) {
                         variant='ghost'
                         className='w-full justify-start font-normal'
                       >
-                        <svg
-                          xmlns='http://www.w3.org/2000/svg'
-                          viewBox='0 0 24 24'
-                          fill='none'
-                          stroke='currentColor'
-                          strokeWidth='2'
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          className='mr-2 h-4 w-4'
-                        >
-                          <path d='M21 15V6' />
-                          <path d='M18.5 18a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5Z' />
-                          <path d='M12 12H3' />
-                          <path d='M16 6H3' />
-                          <path d='M12 18H3' />
-                        </svg>
-                        {playlist}
+                        <span className='flex gap-5 items-center'>
+                          <RiPlayListLine />
+                          {playlist}
+                        </span>
                       </Button>
                     ))}
                   </div>
@@ -212,15 +154,17 @@ export function Sidebar({ className, playlists }: SidebarProps) {
       </div>
 
       <div className={`pl-2 py-4`}>
-        {!toggleCollapse && (
-          <span
-            className={classNames(
-              "flex flex-row gap-5 text-lg font-bold items-center"
-            )}
-          >
-            Logout <BiLogOut style={{ fontSize: "2rem" }} />
-          </span>
-        )}
+        <Button variant='ghost' className='w-full justify-start font-normal'>
+          {!toggleCollapse && (
+            <span
+              className={classNames(
+                "flex flex-row gap-5 text-lg font-bold items-center"
+              )}
+            >
+              Logout <BiLogOut style={{ fontSize: "2rem" }} />
+            </span>
+          )}
+        </Button>
       </div>
     </div>
   );
