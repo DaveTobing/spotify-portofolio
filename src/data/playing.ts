@@ -12,7 +12,7 @@ export async function currentlyPlayingTrack(token: string): Promise<PlayingTrack
         return res.data;
     
       } catch (error) {
-        console.error("Error fetching user playlists:", error);
-        throw new Error("Failed to fetch user playlists");
+        console.error("Error fetching user currently Playing Track:", error);
+        throw new Error("Failed to fetch user currently Playing Track");
       }
 }

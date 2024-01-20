@@ -12,7 +12,7 @@ export async function userProfile(token: string): Promise<SpotifyUser> {
     return res.data;
 
   } catch (error) {
-    console.error("Error fetching user playlists:", error);
-    throw new Error("Failed to fetch user playlists");
+    console.error("Error fetching user profile:", error);
+    throw new Error("Failed to fetch user profile");
   }
 }

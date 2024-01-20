@@ -3,11 +3,6 @@ import { Metadata } from "next";
 import UserAuthForm from "../../components/user-auth";
 import { ModeToggle } from "@/components/darkmode";
 
-export const metadata: Metadata = {
-  title: "Authentication",
-  description: "Authentication forms built using the components.",
-};
-
 export default function AuthenticationPage() {
   return (
     <>

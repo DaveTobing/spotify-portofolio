@@ -6,13 +6,19 @@ import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { userPlaylists } from "@/data/playlist";
 
 import MusicPage from '@/app/discover/page';
-import { SpotifyAlbum } from '@/interface/album';
-import { UserAlbum } from '@/data/album';
+
+import { SpotifyTrack } from '@/interface/track';
+import { topTracks } from '@/data/track';
+
+import { SpotifyArtist } from '@/interface/artist';
+import { topArtists } from '@/data/artist';
+
 
 const page = () => {
   const [token, setToken] = useState("")
+  const [artust, setArtist] = useState<SpotifyArtist[]>([]);
   const [playlists, setPlaylists] = useState<GetSpotifyPlaylist[]>([]);
-  const [albums, setAlbums] = useState<SpotifyAlbum[]>([]);
+  const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
 
   useEffect(() => {
       const hash = window.location.hash;
@@ -44,6 +50,7 @@ const page = () => {
       const fetchPlaylists = async () => {
         try {
           const token = localStorage.getItem('token');
+          console.log(token)
           if (token) {
             const fetchedPlaylists = await userPlaylists(token);
             setPlaylists(fetchedPlaylists);
@@ -57,24 +64,75 @@ const page = () => {
     }, []);
 
     useEffect(() => {
-      const fetchAlbums = async () => {
+      const fetchTracks = async () => {
         try {
           const token = localStorage.getItem('token');
+          console.log(token)
           if (token) {
-            const fetchedAlbums = await UserAlbum(token);
-            setAlbums(fetchedAlbums);
+            const fetchedTracks = await topTracks(token);
+            setTracks(fetchedTracks);
           }
         } catch (error) {
           console.error('Error fetching playlists:', error);
         }
       };
   
-      fetchAlbums();
+      fetchTracks();
     }, []);
+
+    useEffect(() => {
+      const fetchArtist = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          console.log(token)
+          if (token) {
+            const fetchedArtist = await topArtists(token);
+            setArtist(fetchedArtist);
+          }
+        } catch (error) {
+          console.error('Error fetching playlists:', error);
+        }
+      };
+  
+      fetchArtist();
+    }, []);
+
+    // useEffect(() => {
+    //   const fetchAlbums = async () => {
+    //     try {
+    //       const token = localStorage.getItem('token');
+    //       if (token) {
+    //         const fetchedAlbums = await UserAlbum(token);
+    //         setAlbums(fetchedAlbums);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error fetching playlists:', error);
+    //     }
+    //   };
+  
+    //   fetchAlbums();
+    // }, []);
+
+    // useEffect(() => {
+    //   const fetchRecommendedTracks = async () => {
+    //     try {
+    //       const token = localStorage.getItem('token');
+    //       if (token) {
+    //         const fetchedTracks = await RecommendedTracks(token);
+    //         console.log(fetchedTracks)
+    //         setRecommendedTracks(fetchedTracks);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error fetching playlists:', error);
+    //     }
+    //   };
+  
+    //   fetchRecommendedTracks();
+    // }, []);
 
   return (
     <div className='flex flex-row'>
-        <MusicPage playlists={playlists} Album={albums}/>
+        <MusicPage playlists={playlists} tracks={tracks}/>
     </div>
   )
 }

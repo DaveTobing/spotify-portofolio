@@ -8,39 +8,24 @@ import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { PlaylistHolder } from "@/components/Playlist-holder";
-import { GetSpotifyPlaylist } from "../../interface/playlist";
-import { SpotifyAlbum } from "../../interface/album";
-import { ModeToggle } from "@/components/darkmode";
+import { TrackHolder } from "@/components/Tracks-Holder";
 
+import { GetSpotifyPlaylist } from "../../interface/playlist";
+import { ModeToggle } from "@/components/darkmode";
+import { SpotifyTrack } from "@/interface/track";
 
 interface MusicPageProps{
   playlists: GetSpotifyPlaylist[];
-  Album: SpotifyAlbum[];
+  tracks: SpotifyTrack[];
 }
 
-export default function MusicPage({playlists, Album}: MusicPageProps ) {
+export default function MusicPage({playlists, tracks}: MusicPageProps ) {
   return (
     <>
-      {/* <div className='md:hidden'>
-        <Image
-          src='/examples/music-light.png'
-          width={1280}
-          height={1114}
-          alt='Music'
-          className='block dark:hidden'
-        />
-        <Image
-          src='/examples/music-dark.png'
-          width={1280}
-          height={1114}
-          alt='Music'
-          className='hidden dark:block'
-        />
-      </div> */}
       <div className='hidden md:block'>
         <div className='border-t'>
           <div className='bg-background'>
-            <div className='grid lg:grid-cols-5'>
+            <div className='grid lg:grid-cols-4'>
               <div className='col-span-3 lg:col-span-4 lg:border-l'>
                 <div className='h-full px-4 py-6 lg:px-8'>
                   <Tabs defaultValue='music' className='h-full space-y-6'>
@@ -65,7 +50,7 @@ export default function MusicPage({playlists, Album}: MusicPageProps ) {
                             Listen Now
                           </h2>
                           <p className='text-sm text-muted-foreground'>
-                            Top picks for you. Updated daily.
+                            Top tracks picks for you.
                           </p>
                         </div>
                       </div>
@@ -73,10 +58,10 @@ export default function MusicPage({playlists, Album}: MusicPageProps ) {
                       <div className='relative'>
                         <ScrollArea>
                           <div className='flex space-x-4 pb-4'>
-                            {playlists.map((playlist) => (
-                              <PlaylistHolder
-                                key={playlist.id}
-                                playlists={[playlist]}
+                            {tracks.map((track) => (
+                              <TrackHolder
+                                key={track.id}
+                                tracks={[track]}
                                 className='w-[250px]'
                                 aspectRatio='portrait'
                                 width={250}
@@ -89,10 +74,10 @@ export default function MusicPage({playlists, Album}: MusicPageProps ) {
                       </div>
                       <div className='mt-6 space-y-1'>
                         <h2 className='text-2xl font-semibold tracking-tight'>
-                          Made for You
+                          Made By You
                         </h2>
                         <p className='text-sm text-muted-foreground'>
-                          Your personal playlists. Updated daily.
+                          Your personal playlists.
                         </p>
                       </div>
                       <Separator className='my-4' />
@@ -103,8 +88,8 @@ export default function MusicPage({playlists, Album}: MusicPageProps ) {
                               <PlaylistHolder
                                 key={playlist.id}
                                 playlists={[playlist]}
-                                className='w-[250px]'
-                                aspectRatio='portrait'
+                                className='w-[150px] '
+                                aspectRatio='square'
                                 width={150}
                                 height={150}
                               />
