@@ -12,10 +12,10 @@
 //   TabsTrigger,
 // } from "@/components/ui/tabs"
 
-// import { AlbumArtwork } from "./components/album-artwork"
-// import { Menu } from "./components/menu"
-// // import { madeByYouAlbums } from "../api/album"
-// // import { playlists } from "../api/playlist"
+
+// import { AlbumArtwork } from "@/components/album-holder"
+// import { madeByYouAlbums } from "../api/album"
+
 
 // export const metadata: Metadata = {
 //   title: "Music App",
@@ -42,7 +42,6 @@
 //         />
 //       </div>
 //       <div className="hidden md:block">
-//         <Menu />
 //         <div className="border-t">
 //           <div className="bg-background">
 //             <div className="grid lg:grid-cols-5">
@@ -130,18 +129,7 @@
 //                       value="podcasts"
 //                       className="h-full flex-col border-none p-0 data-[state=active]:flex"
 //                     >
-//                       <div className="flex items-center justify-between">
-//                         <div className="space-y-1">
-//                           <h2 className="text-2xl font-semibold tracking-tight">
-//                             New Episodes
-//                           </h2>
-//                           <p className="text-sm text-muted-foreground">
-//                             Your favorite podcasts. Updated daily.
-//                           </p>
-//                         </div>
-//                       </div>
 //                       <Separator className="my-4" />
-//                       <PodcastEmptyPlaceholder />
 //                     </TabsContent>
 //                   </Tabs>
 //                 </div>

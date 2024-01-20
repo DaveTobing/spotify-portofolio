@@ -1,9 +1,9 @@
 import axios from "../app/axios";
-import { SpotifyArtist } from "../interface/artist";
+import { SpotifyAlbum } from "../interface/album";
 
-export async function topArtists(token: string): Promise<SpotifyArtist[]> {
+export async function UserAlbum(token: string): Promise<SpotifyAlbum[]> {
   try {
-    const res = await axios.get("/me/top/artists", {
+    const res = await axios.get("/me/albums", {
       headers: {
         Authorization: `Bearer ${token}`,
       },
@@ -13,6 +13,7 @@ export async function topArtists(token: string): Promise<SpotifyArtist[]> {
         time_range: "short_term",
       },
     });
+
     return res.data?.items || [];
   } catch (error) {
     console.error("Error fetching user playlists:", error);
