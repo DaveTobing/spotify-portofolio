@@ -1,16 +1,18 @@
 "use client";
-import { PlaylistHolder } from '@/components/Playlist-holder';
-import Account from '@/components/account'
 import React from 'react'
 import {useEffect, useState} from "react";
 
 import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { userPlaylists } from "@/data/playlist";
 
+import MusicPage from '@/app/discover/page';
+import { SpotifyAlbum } from '@/interface/album';
+import { UserAlbum } from '@/data/album';
 
 const page = () => {
   const [token, setToken] = useState("")
   const [playlists, setPlaylists] = useState<GetSpotifyPlaylist[]>([]);
+  const [albums, setAlbums] = useState<SpotifyAlbum[]>([]);
 
   useEffect(() => {
       const hash = window.location.hash;
@@ -44,9 +46,7 @@ const page = () => {
           const token = localStorage.getItem('token');
           if (token) {
             const fetchedPlaylists = await userPlaylists(token);
-            console.log(fetchedPlaylists)
             setPlaylists(fetchedPlaylists);
-            console.log(playlists)
           }
         } catch (error) {
           console.error('Error fetching playlists:', error);
@@ -56,10 +56,25 @@ const page = () => {
       fetchPlaylists();
     }, []);
 
+    useEffect(() => {
+      const fetchAlbums = async () => {
+        try {
+          const token = localStorage.getItem('token');
+          if (token) {
+            const fetchedAlbums = await UserAlbum(token);
+            setAlbums(fetchedAlbums);
+          }
+        } catch (error) {
+          console.error('Error fetching playlists:', error);
+        }
+      };
+  
+      fetchAlbums();
+    }, []);
+
   return (
     <div className='flex flex-row'>
-        <Account/>
-        <PlaylistHolder playlists={playlists}/>
+        <MusicPage playlists={playlists} Album={albums}/>
     </div>
   )
 }
