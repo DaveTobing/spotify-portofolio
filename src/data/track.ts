@@ -13,7 +13,7 @@ export async function topTracks(token: string): Promise<SpotifyTrack[]> {
       },
     });
 
-    return res.data?.items || [];
+    return res.data.items;
   } catch (error) {
     console.error("Error fetching user top tracks:", error);
     throw new Error("Failed to fetch user top tracks");

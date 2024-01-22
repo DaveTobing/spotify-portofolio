@@ -1,20 +1,50 @@
+"use client";
+import React from "react";
+import { useEffect, useState } from "react";
+import { SpotifyArtist } from "@/interface/artist";
+import { topArtists, FollowedArtists } from "@/data/artist";
+import { ArtistHolder } from "@/components/Artist-Holder";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
-
-import { PlaylistHolder } from "@/components/Playlist-holder";
-import { TrackHolder } from "@/components/Tracks-Holder";
-
-import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { ModeToggle } from "@/components/darkmode";
-import { SpotifyTrack } from "@/interface/track";
 
-interface MusicPageProps{
-  playlists: GetSpotifyPlaylist[];
-  tracks: SpotifyTrack[];
-}
+const page = () => {
+  const [Topartists, setTopArtist] = useState<SpotifyArtist[]>([]);
+  const [FollowedArtist, setFollowedArtist] = useState<SpotifyArtist[]>([]);
 
-export default function MusicPage({playlists, tracks}: MusicPageProps ) {
+  useEffect(() => {
+    const fetchTopArtist = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const fetchedTopArtist = await topArtists(token);
+          setTopArtist(fetchedTopArtist);
+        }
+      } catch (error) {
+        console.error("Error fetching top artist:", error);
+      }
+    };
+
+    fetchTopArtist();
+  }, []);
+
+  useEffect(() => {
+    const fetchFollowedArtist = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const fetchedFollowedArtist = await FollowedArtists(token);
+          setFollowedArtist(fetchedFollowedArtist);
+        }
+      } catch (error) {
+        console.error("Error fetching top artist:", error);
+      }
+    };
+
+    fetchFollowedArtist();
+  }, []);
+
   return (
     <>
       <div className='hidden md:block'>
@@ -25,13 +55,8 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                 <div className='h-full px-4 py-6 lg:px-8'>
                   <Tabs defaultValue='music' className='h-full space-y-6'>
                     <div className='space-between flex items-center'>
-                      <TabsList>
-                        <TabsTrigger value='music' className='relative'>
-                          Music
-                        </TabsTrigger>
-                      </TabsList>
                       <div className='ml-auto mr-4'>
-                      <ModeToggle />
+                        <ModeToggle />
                       </div>
                     </div>
                     <TabsContent
@@ -41,10 +66,10 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                       <div className='flex items-center justify-between'>
                         <div className='space-y-1'>
                           <h2 className='text-2xl font-semibold tracking-tight'>
-                            Listen Now
+                            Top Artist
                           </h2>
                           <p className='text-sm text-muted-foreground'>
-                            Top tracks picks for you.
+                            Here are your Top Artist.
                           </p>
                         </div>
                       </div>
@@ -52,10 +77,10 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                       <div className='relative'>
                         <ScrollArea>
                           <div className='flex space-x-4 pb-4'>
-                            {tracks.map((track) => (
-                              <TrackHolder
-                                key={track.id}
-                                tracks={[track]}
+                            {Topartists.map((artist) => (
+                              <ArtistHolder
+                                key={artist.id}
+                                artists={[artist]}
                                 className='w-[250px]'
                                 aspectRatio='portrait'
                                 width={250}
@@ -66,26 +91,29 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
-                      <div className='mt-6 space-y-1'>
-                        <h2 className='text-2xl font-semibold tracking-tight'>
-                          Made By You
-                        </h2>
-                        <p className='text-sm text-muted-foreground'>
-                          Your personal playlists.
-                        </p>
+                      <Separator className='my-4' />
+                      <div className='flex items-center justify-between'>
+                        <div className='space-y-1'>
+                          <h2 className='text-2xl font-semibold tracking-tight'>
+                            Followed Artist
+                          </h2>
+                          <p className='text-sm text-muted-foreground'>
+                          Followed Artist by you.
+                          </p>
+                        </div>
                       </div>
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
                           <div className='flex space-x-4 pb-4'>
-                          {playlists.map((playlist) => (
-                              <PlaylistHolder
-                                key={playlist.id}
-                                playlists={[playlist]}
-                                className='w-[150px] '
-                                aspectRatio='square'
-                                width={150}
-                                height={150}
+                            {FollowedArtist.map((artist) => (
+                              <ArtistHolder
+                                key={artist.id}
+                                artists={[artist]}
+                                className='w-[250px]'
+                                aspectRatio='portrait'
+                                width={250}
+                                height={330}
                               />
                             ))}
                           </div>
@@ -102,4 +130,6 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
       </div>
     </>
   );
-}
+};
+
+export default page;

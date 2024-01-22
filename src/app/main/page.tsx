@@ -9,61 +9,19 @@ import { userPlaylists } from "@/data/playlist";
 import MusicPage from "@/app/discover/page";
 
 import { SpotifyTrack } from "@/interface/track";
-import { topTracks } from "@/data/track";
 
-import { SpotifyArtist } from "@/interface/artist";
-import { topArtists } from "@/data/artist";
-import { ReqAccessToken } from "@/data/token";
+
 import querystring from "querystring";
+import { fetchTracks } from "@/components/api";
+import { useQuery } from '@tanstack/react-query'
+import { topTracks } from "@/data/track";
 
 const page = () => {
   const [getToken, setToken] = useState("");
-  const [AccessToken, setAccessToken] = useState("");
-  const [artist, setArtist] = useState<SpotifyArtist[]>([]);
   const [playlists, setPlaylists] = useState<GetSpotifyPlaylist[]>([]);
   const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
 
-  // useEffect(() => {
-  //   const hash = window.location.hash;
-  //   let token = window.localStorage.getItem("token");
-  //   try {
-  //     if (!token && hash) {
-  //       const hashToken = hash
-  //         .substring(1)
-  //         .split("&")
-  //         .find((elem) => elem.startsWith("access_token"))
-  //         ?.split("=")[1];
-
-  //       if (hashToken) {
-  //         token = hashToken;
-  //         window.location.hash = "";
-  //         // Store the token in localStorage
-  //         window.localStorage.setItem("token", token);
-  //         setToken(token);
-  //       }
-  //     }
-  //   } catch (error) {
-  //     console.error("Error saving token:", error);
-  //   }
-  // }, []);
-
-  // useEffect(() => {
-  //   let Accesstoken: string | null = window.localStorage.getItem("Accesstoken");
-  //   const fetchData = async () => {
-  //     try {
-  //       Accesstoken = await ReqAccessToken();
-  //       window.location.hash = "";
-  //       // Store the token in localStorage
-  //       window.localStorage.setItem("Accesstoken", Accesstoken || ""); // Ensure it's not storing `null`
-  //       setAccessToken(Accesstoken || ""); // Ensure it's not setting `null`
-  //       console.log(Accesstoken);
-  //     } catch (error) {
-  //       console.error("Error:", error);
-  //     }
-  //   };
-  //   // Call the fetchData function
-  //   fetchData();
-  // }, []);
+  // const {data:tracks, isLoading:track} = useQuery({ queryKey: ['tracks'], queryFn: fetchTracks })
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -86,7 +44,7 @@ const page = () => {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          redirect_uri: "http://localhost:3000/main", // Update with your redirect_uri
+          redirect_uri: "http://localhost:3000/main", 
           grant_type: "authorization_code",
         },
         headers: {
@@ -103,17 +61,12 @@ const page = () => {
           headers: authOptions.headers,
         })
         .then((response) => {
-          console.log(response)
           const temp_token = response.data.access_token;
-          console.log(temp_token)
-          // Do something with the token
           window.location.hash = "";
-          // Store the token in localStorage
           window.localStorage.setItem("token", temp_token);
           setToken(temp_token);
         })
         .catch((error) => {
-          // Handle token request error
           console.error("Error requesting token:", error);
         });
 
@@ -123,37 +76,7 @@ const page = () => {
     }
   }, []);
 
-  useEffect(() => {
-    const fetchArtist = async () => {
-      try {
-        const token = localStorage.getItem('token');
-        if (token) {
-          const fetchedArtist = await topArtists(token);
-          setArtist(fetchedArtist);
-        }
-      } catch (error) {
-        console.error('Error fetching top artist:', error);
-      }
-    };
 
-    fetchArtist();
-  }, []);
-
-  useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const fetchedTracks = await topTracks(token);
-          setTracks(fetchedTracks);
-        }
-      } catch (error) {
-        console.error("Error fetching top tracks:", error);
-      }
-    };
-
-    fetchTracks();
-  }, []);
 
   useEffect(() => {
     const fetchPlaylists = async () => {
@@ -171,23 +94,21 @@ const page = () => {
     fetchPlaylists();
   }, []);
 
-  // useEffect(() => {
-  //   const fetchTopTracks = async () => {
-  //     try {
-  //       const token = localStorage.getItem('token');
-  //       if (token) {
-  //         const fetchedTracks = await RecommendedTracks(token);
-  //         console.log(fetchedTracks)
-  //         setRecommendedTracks(fetchedTracks);
-  //       }
-  //     } catch (error) {
-  //       console.error('Error fetching playlists:', error);
-  //     }
-  //   };
+  useEffect(() => {
+    const fetchTracks = async () => {
+      try {
+        const token = localStorage.getItem("token");
+        if (token) {
+          const fetchedTracks = await topTracks(token);
+          setTracks(fetchedTracks);
+        }
+      } catch (error) {
+        console.error("Error fetching top tracks:", error);
+      }
+    };
 
-  //   fetchTopTracks();
-  // }, []);
-
+    fetchTracks();
+  }, []);
   return (
     <div className='flex flex-row'>
       <MusicPage playlists={playlists} tracks={tracks} />

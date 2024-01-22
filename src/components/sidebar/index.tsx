@@ -39,7 +39,7 @@ export function Sidebar({ users }: SidebarProps) {
   const wrapperClasses = classNames(
     "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
     {
-      ["w-80"]: !toggleCollapse,
+      ["w-[500px]"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
     }
   );
@@ -133,12 +133,14 @@ export function Sidebar({ users }: SidebarProps) {
                       Made for You
                     </span>
                   </Button>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <LuMic2 />
-                      Artists
-                    </span>
-                  </Button>
+                  <Link href={"/library/artist"}>
+                    <Button variant='ghost' className='w-full justify-start'>
+                      <span className='flex gap-5 items-center'>
+                        <LuMic2 />
+                        Artists
+                      </span>
+                    </Button>
+                  </Link>
                   <Button variant='ghost' className='w-full justify-start'>
                     <span className='flex gap-5 items-center'>
                       <BiLibrary />
@@ -147,48 +149,26 @@ export function Sidebar({ users }: SidebarProps) {
                   </Button>
                 </div>
               </div>
-              {/* <div className='py-2'>
-                <h2 className='relative px-7 text-lg font-semibold tracking-tight'>
-                  Playlists
-                </h2>
-                <ScrollArea className='h-[300px] px-1'>
-                  <div className='space-y-1 p-2'>
-                    {playlists.map((playlist) => (
-                      <Button
-                        key={`${playlist}-${playlist.id}`}
-                        variant='ghost'
-                        className='w-full justify-start font-normal'
-                      >
-                        <span className='flex gap-5 items-center'>
-                          <RiPlayListLine />
-                          {playlist.name}
-                        </span>
-                      </Button>
-                    ))}
-                  </div>
-                </ScrollArea>
-              </div> */}
             </div>
           </div>
         )}
-      </div>
-
-      <div className={`pl-2 py-4`}>
-        <Button
-          variant='ghost'
-          className='w-full justify-start font-normal'
-          onClick={Logout}
-        >
-          {!toggleCollapse && (
-            <span
-              className={classNames(
-                "flex flex-row gap-5 text-lg font-bold items-center"
-              )}
-            >
-              Logout <BiLogOut style={{ fontSize: "2rem" }} />
-            </span>
-          )}
-        </Button>
+        <div className={`pl-2 py-4`}>
+          <Button
+            variant='ghost'
+            className='w-full justify-start font-normal'
+            onClick={Logout}
+          >
+            {!toggleCollapse && (
+              <span
+                className={classNames(
+                  "flex flex-row gap-5 text-lg font-bold items-center"
+                )}
+              >
+                Logout <BiLogOut style={{ fontSize: "2rem" }} />
+              </span>
+            )}
+          </Button>
+        </div>
       </div>
     </div>
   );

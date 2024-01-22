@@ -23,21 +23,23 @@ export default function AuthenticationPage() {
             </blockquote>
           </div>
         </div>
-        <div className=''>
-          <div className='p-10 flex justify-end'>
+        <div className="flex flex-col">
+          <div className="p-10 flex justify-end">
             <ModeToggle />
           </div>
-          <div className='lg:p-8 flex flex-col justify-center items-center'>
-            <div className='mx-auto flex w-full flex-col justify-center space-y-10 sm:w-[350px]'>
-              <div className='flex flex-col space-y-2 text-center'>
-                <h1 className='text-2xl font-semibold tracking-tight'>
-                  Welcome to Portfolioify
-                </h1>
-                <p className='text-sm text-muted-foreground'>
-                  Sign in to your Spotify account
-                </p>
+          <div className='pt-28 flex flex-col justify-center items-center'>
+            <div className='lg:py-8'>
+              <div className='mx-auto flex w-full flex-col justify-center space-y-10 sm:w-[350px]'>
+                <div className='flex flex-col space-y-2 text-center'>
+                  <h1 className='text-2xl font-semibold tracking-tight'>
+                    Welcome to Portfolioify
+                  </h1>
+                  <p className='text-sm text-muted-foreground'>
+                    Sign in to your Spotify account
+                  </p>
+                </div>
+                <UserAuthForm />
               </div>
-              <UserAuthForm />
             </div>
           </div>
         </div>
