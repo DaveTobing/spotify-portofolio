@@ -4,12 +4,10 @@ import Link from "next/link";
 import { cn } from "@/lib/utils";
 import classNames from "classnames";
 import { Button } from "@/components/ui/button";
-import { ScrollArea } from "@/components/ui/scroll-area";
 
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { SpotifyUser } from "../../interface/user";
 
 import {
@@ -18,16 +16,14 @@ import {
   FaCirclePlay,
   FaRegUser,
 } from "react-icons/fa6";
-import { RiPlayListLine } from "react-icons/ri";
 import { BiLogOut, BiLibrary, BiStats } from "react-icons/bi";
 import { LuMusic2, LuMic2 } from "react-icons/lu";
 
-interface SidebarProps{
-  playlists: GetSpotifyPlaylist[];
-  // users: SpotifyUser;
+interface SidebarProps {
+  users?: SpotifyUser;
 }
 
-export function Sidebar({ playlists }: SidebarProps) {
+export function Sidebar({ users }: SidebarProps) {
   const pathname = usePathname();
 
   const isLoginPage = pathname === "/login";
@@ -65,32 +61,29 @@ export function Sidebar({ playlists }: SidebarProps) {
       style={{ transition: "width 300ms cubic-bezier(0.2, 0, 0, 1) 0s" }}
     >
       <div className='flex flex-col'>
-        <div className='flex items-center justify-between relative'>
-          <div className='flex items-center pl-2 gap-4'>
-            {/* {!!users && (
-              <section className='flex'>
-                <Image
-                  loading='lazy'
-                  src={users.images?.[0].url}
-                  alt='User photo profile'
-                  width={100}
-                  height={100}
-                  className='rounded-full mr-3 shadow-black shadow-sm'
-                />
-                <h1 className='text-xl md:text-3xl text-white'>
-                  {users.display_name}
-                  <Link
-                    href={users.external_urls.spotify}
-                    target='_blank'
-                    rel='noopener noreferrer'
-                    className='font-gotham text-green-600'
-                  >
-                    Spotify
+        <div className='flex flex-row items-center justify-between relative'>
+          {!toggleCollapse && (
+            <div className='flex pl-2'>
+              {!!users && (
+                <section className='flex flex-row items-center'>
+                  <Link href={users.external_urls.spotify}>
+                    <Image
+                      loading='lazy'
+                      src={users.images?.[0].url}
+                      alt='User photo profile'
+                      width={100}
+                      height={100}
+                      className='rounded-full mr-3 shadow-black shadow-sm w-12'
+                    />
                   </Link>
-                </h1>
-              </section>
-            )} */}
-          </div>
+
+                  <h1 className='text-xl'>
+                    {users.display_name}
+                  </h1>
+                </section>
+              )}
+            </div>
+          )}
           <Button variant='ghost' onClick={handleSidebarToggle}>
             {toggleCollapse ? (
               <FaAnglesLeft style={{ fontSize: "2rem" }} />
@@ -153,7 +146,7 @@ export function Sidebar({ playlists }: SidebarProps) {
                   </Button>
                 </div>
               </div>
-              <div className='py-2'>
+              {/* <div className='py-2'>
                 <h2 className='relative px-7 text-lg font-semibold tracking-tight'>
                   Playlists
                 </h2>
@@ -173,7 +166,7 @@ export function Sidebar({ playlists }: SidebarProps) {
                     ))}
                   </div>
                 </ScrollArea>
-              </div>
+              </div> */}
             </div>
           </div>
         )}

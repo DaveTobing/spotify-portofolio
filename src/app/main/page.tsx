@@ -16,7 +16,7 @@ import { topArtists } from '@/data/artist';
 
 const page = () => {
   const [token, setToken] = useState("")
-  const [artust, setArtist] = useState<SpotifyArtist[]>([]);
+  const [artist, setArtist] = useState<SpotifyArtist[]>([]);
   const [playlists, setPlaylists] = useState<GetSpotifyPlaylist[]>([]);
   const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
 
@@ -46,6 +46,23 @@ const page = () => {
 
     }, []);
 
+    // useEffect(() => {
+    //   const fetchTracks = async () => {
+    //     try {
+    //       const token = localStorage.getItem('token');
+    //       console.log(token)
+    //       if (token) {
+    //         const fetchedTracks = await topTracks(token);
+    //         setTracks(fetchedTracks);
+    //       }
+    //     } catch (error) {
+    //       console.error('Error fetching top tracks:', error);
+    //     }
+    //   };
+  
+    //   fetchTracks();
+    // }, []);
+
     useEffect(() => {
       const fetchPlaylists = async () => {
         try {
@@ -63,54 +80,24 @@ const page = () => {
       fetchPlaylists();
     }, []);
 
-    useEffect(() => {
-      const fetchTracks = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          console.log(token)
-          if (token) {
-            const fetchedTracks = await topTracks(token);
-            setTracks(fetchedTracks);
-          }
-        } catch (error) {
-          console.error('Error fetching playlists:', error);
-        }
-      };
-  
-      fetchTracks();
-    }, []);
 
-    useEffect(() => {
-      const fetchArtist = async () => {
-        try {
-          const token = localStorage.getItem('token');
-          console.log(token)
-          if (token) {
-            const fetchedArtist = await topArtists(token);
-            setArtist(fetchedArtist);
-          }
-        } catch (error) {
-          console.error('Error fetching playlists:', error);
-        }
-      };
-  
-      fetchArtist();
-    }, []);
 
     // useEffect(() => {
-    //   const fetchAlbums = async () => {
+    //   const fetchArtist = async () => {
     //     try {
     //       const token = localStorage.getItem('token');
+    //       console.log(token)
     //       if (token) {
-    //         const fetchedAlbums = await UserAlbum(token);
-    //         setAlbums(fetchedAlbums);
+    //         const fetchedArtist = await topArtists(token);
+    //         console.log(fetchedArtist)
+    //         setArtist(fetchedArtist);
     //       }
     //     } catch (error) {
-    //       console.error('Error fetching playlists:', error);
+    //       console.error('Error fetching top artist:', error);
     //     }
     //   };
   
-    //   fetchAlbums();
+    //   fetchArtist();
     // }, []);
 
     // useEffect(() => {

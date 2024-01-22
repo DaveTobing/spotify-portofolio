@@ -2,7 +2,6 @@ import axios from "../app/axios";
 import { SpotifyTrack } from "../interface/track";
 
 export async function topTracks(token: string): Promise<SpotifyTrack[]> {
-  console.log(token)
   try {
     const res = await axios.get("/me/top/tracks", {
       headers: {

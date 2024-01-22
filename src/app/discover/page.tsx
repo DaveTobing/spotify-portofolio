@@ -1,8 +1,3 @@
-import { Metadata } from "next";
-import Image from "next/image";
-import { PlusCircledIcon } from "@radix-ui/react-icons";
-
-import { Button } from "@/components/ui/button";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
@@ -34,7 +29,6 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                         <TabsTrigger value='music' className='relative'>
                           Music
                         </TabsTrigger>
-                        <TabsTrigger value='podcasts'>Podcasts</TabsTrigger>
                       </TabsList>
                       <div className='ml-auto mr-4'>
                       <ModeToggle />
