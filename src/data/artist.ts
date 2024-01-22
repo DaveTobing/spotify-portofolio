@@ -9,10 +9,10 @@ export async function topArtists(token: string): Promise<SpotifyArtist[]> {
       },
       params: {
         limit: 10,
+        time_range: "short_term",
       },
     });
     const topArtists = res.data.items;
-    console.log(topArtists);
     return topArtists; 
     // return res.data?.items || [];
   } catch (error) {

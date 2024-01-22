@@ -1,4 +1,5 @@
 import Image from "next/image";
+import Link from "next/link";
 
 import { cn } from "@/lib/utils";
 import { ContextMenu } from "@/components/ui/context-menu";
@@ -25,16 +26,18 @@ export function TrackHolder({
       <ContextMenu>
         <div className='overflow-hidden rounded-md'>
           {tracks.map((track) => (
-            <Image
-              src={track.album.images?.[0].url}
-              alt={track.name}
-              width={width}
-              height={height}
-              className={cn(
-                "h-auto w-auto object-cover transition-all hover:scale-105",
-                aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
-              )}
-            />
+            <Link href={track.external_urls.spotify}>
+              <Image
+                src={track.album.images?.[0].url}
+                alt={track.name}
+                width={width}
+                height={height}
+                className={cn(
+                  "h-auto w-auto object-cover transition-all hover:scale-105",
+                  aspectRatio === "portrait" ? "aspect-[3/4]" : "aspect-square"
+                )}
+              />
+            </Link>
           ))}
         </div>
       </ContextMenu>

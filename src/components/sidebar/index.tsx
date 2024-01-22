@@ -76,10 +76,7 @@ export function Sidebar({ users }: SidebarProps) {
                       className='rounded-full mr-3 shadow-black shadow-sm w-12'
                     />
                   </Link>
-
-                  <h1 className='text-xl'>
-                    {users.display_name}
-                  </h1>
+                  <h1 className='text-xl'>{users.display_name}</h1>
                 </section>
               )}
             </div>
@@ -101,18 +98,22 @@ export function Sidebar({ users }: SidebarProps) {
                   Discover
                 </h2>
                 <div className='space-y-1'>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <FaCirclePlay />
-                      Listen Now
-                    </span>
-                  </Button>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <BiStats />
-                      Stats
-                    </span>
-                  </Button>
+                  <Link href={"/main"}>
+                    <Button variant='ghost' className='w-full justify-start'>
+                      <span className='flex gap-5 items-center'>
+                        <FaCirclePlay />
+                        Listen Now
+                      </span>
+                    </Button>
+                  </Link>
+                  <Link href={"/stats"}>
+                    <Button variant='ghost' className='w-full justify-start'>
+                      <span className='flex gap-5 items-center'>
+                        <BiStats />
+                        Stats
+                      </span>
+                    </Button>
+                  </Link>
                 </div>
               </div>
               <div className='px-3 py-2'>
