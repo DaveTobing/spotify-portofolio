@@ -129,7 +129,7 @@ export function Sidebar({ users }: SidebarProps) {
                       </span>
                     </Button>
                   </Link>
-                  <Link href={"/"}>
+                  <Link href={"/library/MadeforYou"}>
                     <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
                         <FaRegUser />

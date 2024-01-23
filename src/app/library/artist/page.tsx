@@ -1,6 +1,5 @@
 "use client";
 import React from "react";
-import { SpotifyArtist } from "@/interface/artist";
 import { ArtistHolder } from "@/components/Artist-Holder";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
@@ -78,7 +77,7 @@ const page = () => {
                             Followed Artist
                           </h2>
                           <p className='text-sm text-muted-foreground'>
-                            Followed Artist by you.
+                            Artist you follow.
                           </p>
                         </div>
                       </div>

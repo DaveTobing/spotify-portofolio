@@ -32,11 +32,9 @@ export async function MadeforYouPlaylists(
 
     const MadeforYouplaylists: GetSpotifyPlaylist[] = res.data?.items || [];
 
-    console.log(MadeforYouplaylists)
+    console.log(MadeforYouplaylists.filter((playlist) => playlist.owner.display_name === 'Spotify'))
 
-    console.log(MadeforYouplaylists.filter((playlist) => playlist.owner.display_name === "spotify"))
-
-    return MadeforYouplaylists.filter((playlist) => playlist.owner.display_name === "Spotify");
+    return MadeforYouplaylists.filter((playlist) => !playlist.public);
   } catch (error) {
     console.error("Error fetching user playlists:", error);
     throw new Error("Failed to fetch user playlists");

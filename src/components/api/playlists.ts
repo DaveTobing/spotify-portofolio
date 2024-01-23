@@ -1,4 +1,4 @@
-import { userPlaylists } from "@/data/playlist";
+import { userPlaylists, MadeforYouPlaylists } from "@/data/playlist";
 
 export const fetchPlaylists = async () => {
     try {
@@ -11,4 +11,18 @@ export const fetchPlaylists = async () => {
       console.error("Error fetching top tracks:", error);
     }
   };
+
+
+  export const fetchMadeforYouPlaylists = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const fetchedMadeforYouPlaylists = await MadeforYouPlaylists(token);
+        return fetchedMadeforYouPlaylists;
+      }
+    } catch (error) {
+      console.error("Error fetching top tracks:", error);
+    }
+  };
+
 
