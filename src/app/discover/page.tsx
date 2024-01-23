@@ -1,6 +1,6 @@
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 
 import { PlaylistHolder } from "@/components/Playlist-holder";
 import { TrackHolder } from "@/components/Tracks-Holder";
@@ -8,7 +8,6 @@ import { TrackHolder } from "@/components/Tracks-Holder";
 import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { ModeToggle } from "@/components/darkmode";
 import { SpotifyTrack } from "@/interface/track";
-import { Progress } from "@/components/ui/progress"
 
 interface MusicPageProps{
   playlists: GetSpotifyPlaylist[];

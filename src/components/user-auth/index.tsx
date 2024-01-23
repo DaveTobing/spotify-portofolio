@@ -11,7 +11,7 @@ const login = () => {
 
   const startSpotifyLoginServer = () => {
     const state = generateRandomString(16);
-    const scope = "user-read-private user-read-email user-top-read user-follow-read";
+    const scope = "user-read-private user-read-email user-top-read user-follow-read playlist-read-private";
 
     // Redirect the user to Spotify authorization URL
     window.location.href = `${AUTH_ENDPOINT}?client_id=${CLIENT_ID}&redirect_uri=${REDIRECT_URI}&response_type=${RESPONSE_TYPE}&scope=${scope}&state=${state}`;

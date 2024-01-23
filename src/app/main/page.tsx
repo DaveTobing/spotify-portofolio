@@ -6,7 +6,7 @@ import MusicPage from "@/app/discover/page";
 import querystring from "querystring";
 import { fetchTracks } from "@/components/api/track";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPlaylists } from "@/components/api/artist";
+import { fetchPlaylists } from "@/components/api/playlists";
 
 const page = () => {
   const [getToken, setToken] = useState("");

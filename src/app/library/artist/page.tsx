@@ -1,49 +1,25 @@
 "use client";
 import React from "react";
-import { useEffect, useState } from "react";
 import { SpotifyArtist } from "@/interface/artist";
-import { topArtists, FollowedArtists } from "@/data/artist";
 import { ArtistHolder } from "@/components/Artist-Holder";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ModeToggle } from "@/components/darkmode";
+import { useQuery } from "@tanstack/react-query";
+import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
 
 const page = () => {
-  const [Topartists, setTopArtist] = useState<SpotifyArtist[]>([]);
-  const [FollowedArtist, setFollowedArtist] = useState<SpotifyArtist[]>([]);
-
-  useEffect(() => {
-    const fetchTopArtist = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const fetchedTopArtist = await topArtists(token);
-          setTopArtist(fetchedTopArtist);
-        }
-      } catch (error) {
-        console.error("Error fetching top artist:", error);
-      }
-    };
-
-    fetchTopArtist();
-  }, []);
-
-  useEffect(() => {
-    const fetchFollowedArtist = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const fetchedFollowedArtist = await FollowedArtists(token);
-          setFollowedArtist(fetchedFollowedArtist);
-        }
-      } catch (error) {
-        console.error("Error fetching top artist:", error);
-      }
-    };
-
-    fetchFollowedArtist();
-  }, []);
+  const { data: Topartists, isLoading: TopartistsIsLoading } = useQuery({
+    queryKey: ["topArtist"],
+    queryFn: fetchTopArtist,
+  });
+  const { data: FollowedArtist, isLoading: FollowedArtistIsLoading } = useQuery(
+    {
+      queryKey: ["FollowedArtist"],
+      queryFn: fetchFollowedArtist,
+    }
+  );
 
   return (
     <>
@@ -76,18 +52,22 @@ const page = () => {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          <div className='flex space-x-4 pb-4'>
-                            {Topartists.map((artist) => (
-                              <ArtistHolder
-                                key={artist.id}
-                                artists={[artist]}
-                                className='w-[250px]'
-                                aspectRatio='portrait'
-                                width={250}
-                                height={330}
-                              />
-                            ))}
-                          </div>
+                          {!FollowedArtistIsLoading &&
+                            !TopartistsIsLoading &&
+                            Topartists && (
+                              <div className='flex space-x-4 pb-4'>
+                                {Topartists.map((artist) => (
+                                  <ArtistHolder
+                                    key={artist.id}
+                                    artists={[artist]}
+                                    className='w-[250px]'
+                                    aspectRatio='portrait'
+                                    width={250}
+                                    height={330}
+                                  />
+                                ))}
+                              </div>
+                            )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
@@ -98,25 +78,29 @@ const page = () => {
                             Followed Artist
                           </h2>
                           <p className='text-sm text-muted-foreground'>
-                          Followed Artist by you.
+                            Followed Artist by you.
                           </p>
                         </div>
                       </div>
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          <div className='flex space-x-4 pb-4'>
-                            {FollowedArtist.map((artist) => (
-                              <ArtistHolder
-                                key={artist.id}
-                                artists={[artist]}
-                                className='w-[250px]'
-                                aspectRatio='portrait'
-                                width={250}
-                                height={330}
-                              />
-                            ))}
-                          </div>
+                          {!FollowedArtistIsLoading &&
+                            !TopartistsIsLoading &&
+                            FollowedArtist && (
+                              <div className='flex space-x-4 pb-4'>
+                                {FollowedArtist.map((artist) => (
+                                  <ArtistHolder
+                                    key={artist.id}
+                                    artists={[artist]}
+                                    className='w-[250px]'
+                                    aspectRatio='portrait'
+                                    width={250}
+                                    height={330}
+                                  />
+                                ))}
+                              </div>
+                            )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>

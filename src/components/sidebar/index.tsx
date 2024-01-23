@@ -121,18 +121,22 @@ export function Sidebar({ users }: SidebarProps) {
                   Library
                 </h2>
                 <div className='space-y-1'>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <LuMusic2 />
-                      Songs
-                    </span>
-                  </Button>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <FaRegUser />
-                      Made for You
-                    </span>
-                  </Button>
+                  <Link href={"/library/songs"}>
+                    <Button variant='ghost' className='w-full justify-start'>
+                      <span className='flex gap-5 items-center'>
+                        <LuMusic2 />
+                        Songs
+                      </span>
+                    </Button>
+                  </Link>
+                  <Link href={"/"}>
+                    <Button variant='ghost' className='w-full justify-start'>
+                      <span className='flex gap-5 items-center'>
+                        <FaRegUser />
+                        Made for You
+                      </span>
+                    </Button>
+                  </Link>
                   <Link href={"/library/artist"}>
                     <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
@@ -141,12 +145,6 @@ export function Sidebar({ users }: SidebarProps) {
                       </span>
                     </Button>
                   </Link>
-                  <Button variant='ghost' className='w-full justify-start'>
-                    <span className='flex gap-5 items-center'>
-                      <BiLibrary />
-                      Albums
-                    </span>
-                  </Button>
                 </div>
               </div>
             </div>
