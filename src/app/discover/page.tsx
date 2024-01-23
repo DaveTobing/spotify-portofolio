@@ -8,6 +8,7 @@ import { TrackHolder } from "@/components/Tracks-Holder";
 import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { ModeToggle } from "@/components/darkmode";
 import { SpotifyTrack } from "@/interface/track";
+import { Progress } from "@/components/ui/progress"
 
 interface MusicPageProps{
   playlists: GetSpotifyPlaylist[];
@@ -25,11 +26,6 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                 <div className='h-full px-4 py-6 lg:px-8'>
                   <Tabs defaultValue='music' className='h-full space-y-6'>
                     <div className='space-between flex items-center'>
-                      <TabsList>
-                        <TabsTrigger value='music' className='relative'>
-                          Music
-                        </TabsTrigger>
-                      </TabsList>
                       <div className='ml-auto mr-4'>
                       <ModeToggle />
                       </div>

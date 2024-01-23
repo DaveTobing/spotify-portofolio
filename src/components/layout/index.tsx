@@ -6,9 +6,17 @@ import { LayoutProps } from "./interface";
 import { useEffect, useState } from 'react';
 import { userProfile } from "@/data/user";
 import { SpotifyUser } from "../../interface/user";
+import {
+  useQuery,
+  useMutation,
+  useQueryClient,
+  QueryClient,
+  QueryClientProvider,
+} from "@tanstack/react-query";
 
 const Layout: React.FC<LayoutProps> = ({ children }) => {
   const [user, setUser] = useState<SpotifyUser>();
+  const queryClient = new QueryClient();
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -28,6 +36,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
 
   return (
+    <QueryClientProvider client={queryClient}>
     <div className='h-screen flex flex-col'>
       <div className='flex flex-row'>
         <Sidebar users={user} />
@@ -35,6 +44,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
       </div>
       <Footer />
     </div>
+    </QueryClientProvider>
   );
 };
 

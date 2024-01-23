@@ -2,26 +2,23 @@
 import axios from "axios";
 import React from "react";
 import { useEffect, useState } from "react";
-
-import { GetSpotifyPlaylist } from "../../interface/playlist";
-import { userPlaylists } from "@/data/playlist";
-
 import MusicPage from "@/app/discover/page";
-
-import { SpotifyTrack } from "@/interface/track";
-
-
 import querystring from "querystring";
-import { fetchTracks } from "@/components/api";
-import { useQuery } from '@tanstack/react-query'
-import { topTracks } from "@/data/track";
+import { fetchTracks } from "@/components/api/track";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPlaylists } from "@/components/api/artist";
 
 const page = () => {
   const [getToken, setToken] = useState("");
-  const [playlists, setPlaylists] = useState<GetSpotifyPlaylist[]>([]);
-  const [tracks, setTracks] = useState<SpotifyTrack[]>([]);
 
-  // const {data:tracks, isLoading:track} = useQuery({ queryKey: ['tracks'], queryFn: fetchTracks })
+  const { data: tracks, isLoading: trackIsLoading } = useQuery({
+    queryKey: ["tracks"],
+    queryFn: fetchTracks,
+  });
+  const { data: playlists, isLoading: playlistsIsLoading } = useQuery({
+    queryKey: ["playlists"],
+    queryFn: fetchPlaylists,
+  });
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
@@ -44,7 +41,7 @@ const page = () => {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          redirect_uri: "http://localhost:3000/main", 
+          redirect_uri: "http://localhost:3000/main",
           grant_type: "authorization_code",
         },
         headers: {
@@ -76,43 +73,14 @@ const page = () => {
     }
   }, []);
 
-
-
-  useEffect(() => {
-    const fetchPlaylists = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const fetchedPlaylists = await userPlaylists(token);
-          setPlaylists(fetchedPlaylists);
-        }
-      } catch (error) {
-        console.error("Error fetching playlists:", error);
-      }
-    };
-
-    fetchPlaylists();
-  }, []);
-
-  useEffect(() => {
-    const fetchTracks = async () => {
-      try {
-        const token = localStorage.getItem("token");
-        if (token) {
-          const fetchedTracks = await topTracks(token);
-          setTracks(fetchedTracks);
-        }
-      } catch (error) {
-        console.error("Error fetching top tracks:", error);
-      }
-    };
-
-    fetchTracks();
-  }, []);
   return (
-    <div className='flex flex-row'>
-      <MusicPage playlists={playlists} tracks={tracks} />
-    </div>
+    <>
+      <div className='flex flex-row'>
+        {!playlistsIsLoading && !trackIsLoading && (
+          <MusicPage playlists={playlists || []} tracks={tracks || []} />
+        )}
+      </div>
+    </>
   );
 };
 
