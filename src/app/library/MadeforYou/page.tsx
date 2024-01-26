@@ -10,7 +10,7 @@ import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
 import { fetchMadeforYouPlaylists } from "@/components/api/playlists";
 import { PlaylistHolder } from "@/components/Playlist-holder";
 
-const page = () => {
+const Page = () => {
   const { data: MadeforYouPlaylst, isLoading: MadeforYouPlaylstIsLoading } = useQuery({
     queryKey: ["MadeforYouPlaylst"],
     queryFn: fetchMadeforYouPlaylists,
@@ -72,7 +72,6 @@ const page = () => {
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
-                      <Separator className='my-4' />
                       <div className='flex items-center justify-between'>
                         <div className='space-y-1'>
                           <h2 className='text-2xl font-semibold tracking-tight'>
@@ -117,4 +116,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

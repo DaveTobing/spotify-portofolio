@@ -16,14 +16,17 @@ import {
   FaCirclePlay,
   FaRegUser,
 } from "react-icons/fa6";
-import { BiLogOut, BiLibrary, BiStats } from "react-icons/bi";
+import { BiLogOut, BiStats } from "react-icons/bi";
 import { LuMusic2, LuMic2 } from "react-icons/lu";
+import { useQuery } from "@tanstack/react-query";
+import { fetchUser } from "../api/user";
 
-interface SidebarProps {
-  users?: SpotifyUser;
-}
+export function Sidebar() {
+  const { data: Users, isLoading: UsersIsLoading } = useQuery({
+    queryKey: ["Users"],
+    queryFn: fetchUser,
+  });
 
-export function Sidebar({ users }: SidebarProps) {
   const pathname = usePathname();
 
   const isLoginPage = pathname === "/login";
@@ -39,7 +42,7 @@ export function Sidebar({ users }: SidebarProps) {
   const wrapperClasses = classNames(
     "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
     {
-      ["w-[500px]"]: !toggleCollapse,
+      ["w-[600px] max-w-[280px]"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
     }
   );
@@ -64,19 +67,19 @@ export function Sidebar({ users }: SidebarProps) {
         <div className='flex flex-row items-center justify-between relative'>
           {!toggleCollapse && (
             <div className='flex pl-2'>
-              {!!users && (
+              {!!Users && !UsersIsLoading && (
                 <section className='flex flex-row items-center'>
-                  <Link href={users.external_urls.spotify}>
+                  <Link href={Users.external_urls.spotify}>
                     <Image
                       loading='lazy'
-                      src={users.images?.[0].url}
+                      src={Users.images?.[0].url}
                       alt='User photo profile'
                       width={100}
                       height={100}
                       className='rounded-full mr-3 shadow-black shadow-sm w-12'
                     />
                   </Link>
-                  <h1 className='text-xl'>{users.display_name}</h1>
+                  <h1 className='text-xl'>{Users.display_name}</h1>
                 </section>
               )}
             </div>
