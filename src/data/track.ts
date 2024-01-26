@@ -37,3 +37,17 @@ export async function RecommendedTracks(token: string): Promise<SpotifyTrack[]> 
     throw new Error("Failed to fetch user playlists");
   }
 }
+
+export async function GetTracks(token: string, id:string): Promise<SpotifyTrack[]> {
+  try {
+    const res = await axios.get(`/tracks/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    return res.data?.items || [];
+  } catch (error) {
+    console.error("Error fetching user playlists:", error);
+    throw new Error("Failed to fetch user playlists");
+  }
+}

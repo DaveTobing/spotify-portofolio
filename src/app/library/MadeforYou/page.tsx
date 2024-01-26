@@ -1,12 +1,10 @@
 "use client";
 import React from "react";
-import { ArtistHolder } from "@/components/Artist-Holder";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ModeToggle } from "@/components/darkmode";
 import { useQuery } from "@tanstack/react-query";
-import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
 import { fetchMadeforYouPlaylists } from "@/components/api/playlists";
 import { PlaylistHolder } from "@/components/Playlist-holder";
 
@@ -15,13 +13,6 @@ const Page = () => {
     queryKey: ["MadeforYouPlaylst"],
     queryFn: fetchMadeforYouPlaylists,
   });
-
-  const { data: FollowedArtist, isLoading: FollowedArtistIsLoading } = useQuery(
-    {
-      queryKey: ["FollowedArtist"],
-      queryFn: fetchFollowedArtist,
-    }
-  );
 
   return (
     <>

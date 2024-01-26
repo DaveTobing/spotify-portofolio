@@ -1,4 +1,5 @@
-import { topTracks } from "@/data/track";
+// import { PlaylistGenres } from "@/data/genre";
+import { GetTracks, topTracks } from "@/data/track";
 
 export const fetchTracks = async () => {
     try {
@@ -12,3 +13,14 @@ export const fetchTracks = async () => {
     }
   };
 
+  export const fetchPlaylistById = async (id: string) => {
+    try {
+      const token = localStorage.getItem("token");
+      if (token) {
+        const fetchedTracks =  await GetTracks(token, id);
+        return fetchedTracks;
+      }
+    } catch (error) {
+      console.error("Error fetching top tracks:", error);
+    }
+  };

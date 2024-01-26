@@ -4,7 +4,7 @@ import { SpotifyAlbum } from './album'
 
 export interface SpotifyTrack {
     album: SpotifyAlbum
-    artists: Partial<SpotifyArtist>[]
+    artists: SpotifyArtist[]
     available_markets: string[]
     disc_number: number
     duration_ms: number

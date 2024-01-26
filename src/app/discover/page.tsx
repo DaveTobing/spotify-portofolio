@@ -15,6 +15,8 @@ import { fetchTracks } from "@/components/api/track";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPlaylists } from "@/components/api/playlists";
 import { RectangleLoader, SquareLoader } from "@/components/Loader";
+// import { PlaylistGenres } from "@/data/genre";
+
 export default function MusicPage() {
   const [getToken, setToken] = useState("");
 
@@ -22,10 +24,14 @@ export default function MusicPage() {
     queryKey: ["tracks"],
     queryFn: fetchTracks,
   });
+
   const { data: playlists, isLoading: playlistsIsLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: fetchPlaylists,
   });
+
+  console.log(playlists)
+
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);

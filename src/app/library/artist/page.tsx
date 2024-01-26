@@ -9,12 +9,13 @@ import { useQuery } from "@tanstack/react-query";
 import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
 import { RectangleLoader } from "@/components/Loader";
 
-
 const Page = () => {
+  
   const { data: Topartists, isLoading: TopartistsIsLoading } = useQuery({
     queryKey: ["topArtist"],
     queryFn: fetchTopArtist,
   });
+
   const { data: FollowedArtist, isLoading: FollowedArtistIsLoading } = useQuery(
     {
       queryKey: ["FollowedArtist"],

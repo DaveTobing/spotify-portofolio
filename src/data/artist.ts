@@ -8,13 +8,12 @@ export async function topArtists(token: string): Promise<SpotifyArtist[]> {
         Authorization: `Bearer ${token}`,
       },
       params: {
-        limit: 10,
+        limit: 20,
         time_range: "short_term",
       },
     });
     const topArtists = res.data.items;
     return topArtists; 
-    // return res.data?.items || [];
   } catch (error) {
     console.log(error)
     console.error("Error fetching user top artist:", error);
