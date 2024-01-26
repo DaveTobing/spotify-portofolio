@@ -26,7 +26,7 @@ export function TrackHolder({
       <ContextMenu>
         <div className='overflow-hidden rounded-md'>
           {tracks.map((track) => (
-            <Link href={track.external_urls.spotify}>
+            <Link href={track.external_urls.spotify} key={track.id}>
               <Image
                 src={track.album.images?.[0].url}
                 alt={track.name}
@@ -43,9 +43,7 @@ export function TrackHolder({
       </ContextMenu>
       <div className='space-y-1 text-sm'>
         {tracks.map((track) => (
-          <>
-            <h3 className='font-medium leading-none'>{track.name}</h3>
-          </>
+          <h3 className='font-medium leading-none' key={track.id}>{track.name}</h3>
         ))}
       </div>
     </div>

@@ -26,7 +26,7 @@ export function ArtistHolder({
       <ContextMenu>
         <div className='overflow-hidden rounded-md'>
           {artists.map((artist) => (
-            <Link href={artist.external_urls.spotify}>
+            <Link href={artist.external_urls.spotify} key={artist.id}>
               <Image
                 src={artist.images?.[0].url}
                 alt={artist.name}
@@ -43,9 +43,9 @@ export function ArtistHolder({
       </ContextMenu>
       <div className='space-y-1 text-sm'>
         {artists.map((artist) => (
-          <>
-            <h3 className='font-medium leading-none'>{artist.name}</h3>
-          </>
+          <h3 className='font-medium leading-none' key={artist.id}>
+            {artist.name}
+          </h3>
         ))}
       </div>
     </div>

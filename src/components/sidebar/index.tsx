@@ -24,6 +24,9 @@ export function Sidebar() {
     queryKey: ["Users"],
     queryFn: fetchUser,
   });
+  const [toggleCollapse, setToggleCollapse] = useState(false);
+
+  const router = useRouter();
 
   const pathname = usePathname();
 
@@ -34,8 +37,6 @@ export function Sidebar() {
   if (isLoginPage || isHomePage) {
     return null;
   }
-
-  const [toggleCollapse, setToggleCollapse] = useState(false);
 
   const wrapperClasses = classNames(
     "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
@@ -49,7 +50,7 @@ export function Sidebar() {
     setToggleCollapse(!toggleCollapse);
   };
 
-  const router = useRouter();
+
 
   const Logout = () => {
     window.localStorage.removeItem("token");
