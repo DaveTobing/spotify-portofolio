@@ -8,7 +8,7 @@ import { fetchTracks } from "@/components/api/track";
 import { useQuery } from "@tanstack/react-query";
 import { fetchPlaylists } from "@/components/api/playlists";
 
-const page = () => {
+const Page = () => {
   const [getToken, setToken] = useState("");
 
   const { data: tracks, isLoading: trackIsLoading } = useQuery({
@@ -84,4 +84,4 @@ const page = () => {
   );
 };
 
-export default page;
+export default Page;

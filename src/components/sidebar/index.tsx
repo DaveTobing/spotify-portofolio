@@ -8,8 +8,6 @@ import { Button } from "@/components/ui/button";
 import React, { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import { SpotifyUser } from "../../interface/user";
-
 import {
   FaAnglesLeft,
   FaAnglesRight,

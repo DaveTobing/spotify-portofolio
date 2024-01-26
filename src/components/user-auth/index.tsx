@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import { FaSpotify } from "react-icons/fa6";
 import { useEffect } from "react";
 
-const login = () => {
+const Login = () => {
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
   const REDIRECT_URI = "http://localhost:3000/main";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
@@ -41,4 +41,4 @@ const login = () => {
   );
 };
 
-export default login;
+export default Login;
