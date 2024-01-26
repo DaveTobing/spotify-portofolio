@@ -7,18 +7,8 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { ModeToggle } from "@/components/darkmode";
 import { useQuery } from "@tanstack/react-query";
 import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
+import { RectangleLoader } from "@/components/Loader";
 
-const Loader = () => {
-  return (
-    <div className='flex items-center gap-4'>
-      <div className='rounded-lg bg-gray-200 w-[250px] h-[330px] animate-pulse'></div>
-      <div className='rounded-lg bg-gray-200 w-[250px] h-[330px] animate-pulse'></div>
-      <div className='rounded-lg bg-gray-200 w-[250px] h-[330px] animate-pulse'></div>
-      <div className='rounded-lg bg-gray-200 w-[250px] h-[330px] animate-pulse'></div>
-      <div className='rounded-lg bg-gray-200 w-[250px] h-[330px] animate-pulse'></div>
-    </div>
-  );
-};
 
 const Page = () => {
   const { data: Topartists, isLoading: TopartistsIsLoading } = useQuery({
@@ -64,7 +54,7 @@ const Page = () => {
                       <div className='relative'>
                         <ScrollArea>
                           {TopartistsIsLoading ? (
-                            <Loader />
+                            <RectangleLoader />
                           ) : (
                             <div className='flex space-x-4 pb-4'>
                               {Topartists?.map((artist) => (
@@ -95,22 +85,22 @@ const Page = () => {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {!FollowedArtistIsLoading &&
-                            !TopartistsIsLoading &&
-                            FollowedArtist && (
-                              <div className='flex space-x-4 pb-4'>
-                                {FollowedArtist.map((artist) => (
-                                  <ArtistHolder
-                                    key={artist.id}
-                                    artists={[artist]}
-                                    className='w-[250px]'
-                                    aspectRatio='portrait'
-                                    width={250}
-                                    height={330}
-                                  />
-                                ))}
-                              </div>
-                            )}
+                          {FollowedArtistIsLoading ? (
+                            <RectangleLoader />
+                          ) : (
+                            <div className='flex space-x-4 pb-4'>
+                              {FollowedArtist?.map((artist) => (
+                                <ArtistHolder
+                                  key={artist.id}
+                                  artists={[artist]}
+                                  className='w-[250px]'
+                                  aspectRatio='portrait'
+                                  width={250}
+                                  height={330}
+                                />
+                              ))}
+                            </div>
+                          )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>

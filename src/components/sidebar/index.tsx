@@ -100,7 +100,7 @@ export function Sidebar() {
                   Discover
                 </h2>
                 <div className='space-y-1'>
-                  <Link href={"/main"}>
+                  <Link href={"/discover"}>
                     <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
                         <FaCirclePlay />

@@ -16,12 +16,12 @@ const Page = () => {
     queryFn: fetchMadeforYouPlaylists,
   });
 
-//   const { data: FollowedArtist, isLoading: FollowedArtistIsLoading } = useQuery(
-//     {
-//       queryKey: ["FollowedArtist"],
-//       queryFn: fetchFollowedArtist,
-//     }
-//   );
+  const { data: FollowedArtist, isLoading: FollowedArtistIsLoading } = useQuery(
+    {
+      queryKey: ["FollowedArtist"],
+      queryFn: fetchFollowedArtist,
+    }
+  );
 
   return (
     <>

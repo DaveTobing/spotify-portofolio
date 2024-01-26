@@ -1,3 +1,4 @@
+"use client";
 import { ScrollArea, ScrollBar } from "@/components/ui/scroll-area";
 import { Separator } from "@/components/ui/separator";
 import { Tabs, TabsContent } from "@/components/ui/tabs";
@@ -5,16 +6,80 @@ import { Tabs, TabsContent } from "@/components/ui/tabs";
 import { PlaylistHolder } from "@/components/Playlist-holder";
 import { TrackHolder } from "@/components/Tracks-Holder";
 
-import { GetSpotifyPlaylist } from "../../interface/playlist";
 import { ModeToggle } from "@/components/darkmode";
-import { SpotifyTrack } from "@/interface/track";
 
-interface MusicPageProps{
-  playlists: GetSpotifyPlaylist[];
-  tracks: SpotifyTrack[];
-}
+import axios from "axios";
+import { useEffect, useState } from "react";
+import querystring from "querystring";
+import { fetchTracks } from "@/components/api/track";
+import { useQuery } from "@tanstack/react-query";
+import { fetchPlaylists } from "@/components/api/playlists";
+import { RectangleLoader, SquareLoader } from "@/components/Loader";
+export default function MusicPage() {
+  const [getToken, setToken] = useState("");
 
-export default function MusicPage({playlists, tracks}: MusicPageProps ) {
+  const { data: tracks, isLoading: trackIsLoading } = useQuery({
+    queryKey: ["tracks"],
+    queryFn: fetchTracks,
+  });
+  const { data: playlists, isLoading: playlistsIsLoading } = useQuery({
+    queryKey: ["playlists"],
+    queryFn: fetchPlaylists,
+  });
+
+  useEffect(() => {
+    const searchParams = new URLSearchParams(window.location.search);
+    const code = searchParams.get("code");
+    const state = searchParams.get("state");
+    const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+    const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+
+    if (code) {
+      if (state === null) {
+        // Handle state mismatch error
+        const errorParams = new URLSearchParams({
+          error: "state_mismatch",
+        });
+        window.location.href = `/#${errorParams.toString()}`;
+        return;
+      }
+      // Convert the following code to TypeScript
+      const authOptions = {
+        url: "https://accounts.spotify.com/api/token",
+        form: {
+          code: code,
+          redirect_uri: "http://localhost:3000/discover",
+          grant_type: "authorization_code",
+        },
+        headers: {
+          "content-type": "application/x-www-form-urlencoded",
+          Authorization: "Basic " + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
+        },
+        json: true,
+      };
+
+      // Use `axios` or another HTTP library to make the token request
+      // and handle the response accordingly
+      axios
+        .post(authOptions.url, querystring.stringify(authOptions.form), {
+          headers: authOptions.headers,
+        })
+        .then((response) => {
+          const temp_token = response.data.access_token;
+          window.location.hash = "";
+          window.localStorage.setItem("token", temp_token);
+          setToken(temp_token);
+        })
+        .catch((error) => {
+          console.error("Error requesting token:", error);
+        });
+
+      // Optional: Redirect to remove the code from the URL
+      const urlWithoutCode = window.location.origin + window.location.pathname;
+      window.history.replaceState({}, document.title, urlWithoutCode);
+    }
+  }, []);
+
   return (
     <>
       <div className='hidden md:block'>
@@ -26,7 +91,7 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                   <Tabs defaultValue='music' className='h-full space-y-6'>
                     <div className='space-between flex items-center'>
                       <div className='ml-auto mr-4'>
-                      <ModeToggle />
+                        <ModeToggle />
                       </div>
                     </div>
                     <TabsContent
@@ -46,18 +111,22 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          <div className='flex space-x-4 pb-4'>
-                            {tracks.map((track) => (
-                              <TrackHolder
-                                key={track.id}
-                                tracks={[track]}
-                                className='w-[250px]'
-                                aspectRatio='portrait'
-                                width={250}
-                                height={330}
-                              />
-                            ))}
-                          </div>
+                          {trackIsLoading ? (
+                            <RectangleLoader />
+                          ) : (
+                            <div className='flex space-x-4 pb-4'>
+                              {tracks?.map((track) => (
+                                <TrackHolder
+                                  key={track.id}
+                                  tracks={[track]}
+                                  className='w-[250px]'
+                                  aspectRatio='portrait'
+                                  width={250}
+                                  height={330}
+                                />
+                              ))}
+                            </div>
+                          )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
@@ -72,18 +141,22 @@ export default function MusicPage({playlists, tracks}: MusicPageProps ) {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          <div className='flex space-x-4 pb-4'>
-                          {playlists.map((playlist) => (
-                              <PlaylistHolder
-                                key={playlist.id}
-                                playlists={[playlist]}
-                                className='w-[150px] '
-                                aspectRatio='square'
-                                width={150}
-                                height={150}
-                              />
-                            ))}
-                          </div>
+                          {playlistsIsLoading ? (
+                            <SquareLoader />
+                          ) : (
+                            <div className='flex space-x-4 pb-4'>
+                              {playlists?.map((playlist) => (
+                                <PlaylistHolder
+                                  key={playlist.id}
+                                  playlists={[playlist]}
+                                  className='w-[150px] '
+                                  aspectRatio='square'
+                                  width={150}
+                                  height={150}
+                                />
+                              ))}
+                            </div>
+                          )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
