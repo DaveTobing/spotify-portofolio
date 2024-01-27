@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/ui/button";
 import { FaSpotify } from "react-icons/fa6";
-import { useEffect } from "react";
 
 const Login = () => {
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
