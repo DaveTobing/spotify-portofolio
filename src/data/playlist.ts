@@ -1,4 +1,4 @@
-import { GetSpotifyPlaylist } from "../interface/playlist";
+import { GetSpotifyPlaylistById, GetSpotifyPlaylist } from "../interface/playlist";
 import axios from "../app/axios";
 
 export async function userPlaylists(
@@ -36,6 +36,23 @@ export async function MadeforYouPlaylists(
 
     return MadeforYouplaylists.filter((playlist) => !playlist.public);
   } catch (error) {
+    console.error("Error fetching user playlists:", error);
+    throw new Error("Failed to fetch user playlists");
+  }
+}
+
+export async function GetTracks(token: string, id:string): Promise<GetSpotifyPlaylistById[]> {
+  try {
+    console.log(id)
+    const res = await axios.get(`/playlists/${id}`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log(res)
+    return res.data?.items || [];
+  } catch (error) {
+    console.log("test")
     console.error("Error fetching user playlists:", error);
     throw new Error("Failed to fetch user playlists");
   }

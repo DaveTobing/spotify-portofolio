@@ -11,9 +11,9 @@ import { ModeToggle } from "@/components/darkmode";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import querystring from "querystring";
-import { fetchTracks } from "@/components/api/track";
+import {fetchTracks } from "@/components/api/track";
 import { useQuery } from "@tanstack/react-query";
-import { fetchPlaylists } from "@/components/api/playlists";
+import { fetchGenreByPlaylistId, fetchPlaylists } from "@/components/api/playlists";
 import { RectangleLoader, SquareLoader } from "@/components/Loader";
 // import { PlaylistGenres } from "@/data/genre";
 
@@ -30,7 +30,19 @@ export default function MusicPage() {
     queryFn: fetchPlaylists,
   });
 
-  console.log(playlists)
+  // const handlePlaylistLoop = async () => {
+  //   if (playlists && playlists.length > 0) {
+  //     for (const playlist of playlists) {
+  //       console.log(playlist)
+  //       console.log(playlist.id)
+  //       await fetchGenreByPlaylistId();
+  //     }
+  //   }
+  // };
+
+  // useEffect(() => {
+  //   handlePlaylistLoop();
+  // }, [playlists]);
 
 
   useEffect(() => {

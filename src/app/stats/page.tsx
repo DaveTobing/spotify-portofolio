@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/darkmode";
 import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { Separator } from "@radix-ui/react-separator";
 import { cn } from "@/lib/utils";
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardContent} from "@/components/ui/card";
 
 interface Bar {
   name: string;
@@ -75,7 +75,7 @@ export default function StatsPage() {
                       <div className='flex items-center justify-between'>
                         <div className='space-y-1'>
                           <h2 className='text-2xl font-semibold tracking-tight'>
-                            Top Artist Genre's Stats
+                            Top Artist Genre&apos;s Stats
                           </h2>
                           <p className='text-sm text-muted-foreground'>
                             Insights into your music taste based on your Top
@@ -117,7 +117,7 @@ export default function StatsPage() {
                       </div>
                       <div className='mt-6 space-y-1'>
                         <h2 className='text-2xl font-semibold tracking-tight'>
-                          Playlist Genre Stat's
+                          Playlist Genre&apos;s Stats
                         </h2>
                         <p className='text-sm text-muted-foreground'>
                           Insights into your music taste based on your Personal
