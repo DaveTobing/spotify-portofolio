@@ -13,10 +13,10 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
 
   return (
     <QueryClientProvider client={queryClient}>
-    <div className='h-screen flex flex-col'>
+    <div className='flex flex-col'>
       <div className='flex flex-row'>
         <Sidebar/>
-        <div className='flex-grow'>{children}</div>
+        <div className=''>{children}</div>
       </div>
       <Footer />
     </div>

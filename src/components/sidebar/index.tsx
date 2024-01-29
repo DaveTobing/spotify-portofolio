@@ -41,7 +41,7 @@ export function Sidebar() {
   const wrapperClasses = classNames(
     "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
     {
-      ["w-[600px] max-w-[280px]"]: !toggleCollapse,
+      ["w-[1000px] max-w-[280px]"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
     }
   );
@@ -49,8 +49,6 @@ export function Sidebar() {
   const handleSidebarToggle = () => {
     setToggleCollapse(!toggleCollapse);
   };
-
-
 
   const Logout = () => {
     window.localStorage.removeItem("token");

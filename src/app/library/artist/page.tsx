@@ -10,7 +10,6 @@ import { fetchFollowedArtist, fetchTopArtist } from "@/components/api/artist";
 import { RectangleLoader } from "@/components/Loader";
 
 const Page = () => {
-  
   const { data: Topartists, isLoading: TopartistsIsLoading } = useQuery({
     queryKey: ["topArtist"],
     queryFn: fetchTopArtist,
@@ -28,7 +27,7 @@ const Page = () => {
       <div className='hidden md:block'>
         <div className='border-t'>
           <div className='bg-background'>
-            <div className='grid lg:grid-cols-3'>
+            <div className='grid lg:grid-cols-2'>
               <div className='col-span-3 lg:col-span-4 lg:border-l'>
                 <div className='h-full px-4 py-6 lg:px-8'>
                   <Tabs defaultValue='music' className='h-full space-y-6'>
@@ -54,7 +53,7 @@ const Page = () => {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {TopartistsIsLoading ? (
+                          {TopartistsIsLoading || !Topartists ? (
                             <RectangleLoader />
                           ) : (
                             <div className='flex space-x-4 pb-4'>
@@ -86,7 +85,7 @@ const Page = () => {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {FollowedArtistIsLoading ? (
+                          {FollowedArtistIsLoading || !FollowedArtist ? (
                             <RectangleLoader />
                           ) : (
                             <div className='flex space-x-4 pb-4'>

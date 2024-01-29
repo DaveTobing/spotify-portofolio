@@ -4,8 +4,8 @@ import { FaSpotify } from "react-icons/fa6";
 
 const Login = () => {
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
-  // const REDIRECT_URI = "http://localhost:3000/discover";
-  const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
+  const REDIRECT_URI = "http://localhost:3000/discover";
+  // const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
   const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "code";
 
@@ -33,7 +33,7 @@ const Login = () => {
     <div className='flex flex-col items-center '>
       <Button variant='outline' type='button' onClick={startSpotifyLoginServer}>
         <div className='flex flex-row items-center gap-10'>
-          <FaSpotify style={{ fontSize: "1.5rem" }} />
+          <FaSpotify style={{ fontSize: "1.5rem" }} className='text-green-600'  />
           <span className='text-lg text-green-600'> Spotify </span>
         </div>
       </Button>
