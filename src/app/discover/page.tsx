@@ -53,7 +53,7 @@ export default function MusicPage() {
     const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
 
     if (code) {
-      // const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
+      const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
       if (state === null) {
         // Handle state mismatch error
         const errorParams = new URLSearchParams({
@@ -67,8 +67,8 @@ export default function MusicPage() {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          redirect_uri: "http://localhost:3000/discover",
-          // redirect_uri: REDIRECT_URI,
+          // redirect_uri: "http://localhost:3000/discover",
+          redirect_uri: REDIRECT_URI,
           grant_type: "authorization_code",
         },
         headers: {

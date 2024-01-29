@@ -23,6 +23,7 @@ export function Sidebar() {
   const { data: Users, isLoading: UsersIsLoading } = useQuery({
     queryKey: ["Users"],
     queryFn: fetchUser,
+    staleTime: 3000,
   });
   const [toggleCollapse, setToggleCollapse] = useState(false);
 
