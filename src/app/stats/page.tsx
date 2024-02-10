@@ -8,7 +8,7 @@ import { ModeToggle } from "@/components/darkmode";
 import { Tabs, TabsContent } from "@radix-ui/react-tabs";
 import { Separator } from "@radix-ui/react-separator";
 import { cn } from "@/lib/utils";
-import { Card, CardContent} from "@/components/ui/card";
+import { Card, CardContent } from "@/components/ui/card";
 
 interface Bar {
   name: string;
@@ -45,8 +45,6 @@ export default function StatsPage() {
     queryFn: fetchTopArtist,
   });
 
-  console.log(TopArtist);
-
   const dataGenre = topGenres(TopArtist || []);
 
   const dataGenreBars: Bar[] = dataGenre.map((genre) => ({
@@ -64,7 +62,7 @@ export default function StatsPage() {
                 <div className='h-full px-4 py-6 lg:px-8'>
                   <Tabs defaultValue='music' className='h-full space-y-6'>
                     <div className='space-between flex items-center'>
-                      <div className='ml-auto mr-4'>
+                      <div className='ml-auto'>
                         <ModeToggle />
                       </div>
                     </div>
@@ -90,7 +88,7 @@ export default function StatsPage() {
                         ) : (
                           <div className='flex flex-row justify-center items-center'>
                             <div>
-                              <Card className={cn("w-[1000px]")}>
+                              <Card className={cn("w-[1200px]")}>
                                 <CardContent className='grid gap-2 grid-cols-2 items-center'>
                                   <div>
                                     <DonutChart

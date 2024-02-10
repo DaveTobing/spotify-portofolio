@@ -18,6 +18,7 @@ import { BiLogOut, BiStats } from "react-icons/bi";
 import { LuMusic2, LuMic2 } from "react-icons/lu";
 import { useQuery } from "@tanstack/react-query";
 import { fetchUser } from "../api/user";
+import { ProfileLoader } from "../Loader";
 
 export function Sidebar() {
   const { data: Users, isLoading: UsersIsLoading } = useQuery({
@@ -34,13 +35,12 @@ export function Sidebar() {
   const isLoginPage = pathname === "/login";
   const isHomePage = pathname === "/";
 
-  // If on the login or register page, don't render the navbar
   if (isLoginPage || isHomePage) {
     return null;
   }
 
   const wrapperClasses = classNames(
-    "h-screen px-4 pt-8 pb-4 bg-light flex justify-between flex-col",
+    "max-h-max px-4 pt-8 pb-4 bg-light flex justify-between flex-col relative",
     {
       ["w-[1000px] max-w-[280px]"]: !toggleCollapse,
       ["w-20"]: toggleCollapse,
@@ -64,8 +64,10 @@ export function Sidebar() {
       <div className='flex flex-col'>
         <div className='flex flex-row items-center justify-between relative'>
           {!toggleCollapse && (
-            <div className='flex pl-2'>
-              {!!Users && !UsersIsLoading && (
+            <div className='flex pl-5'>
+              {!Users || UsersIsLoading ? (
+                <ProfileLoader />
+              ) : (
                 <section className='flex flex-row items-center'>
                   <Link href={Users.external_urls.spotify}>
                     <Image
@@ -74,10 +76,10 @@ export function Sidebar() {
                       alt='User photo profile'
                       width={100}
                       height={100}
-                      className='rounded-full mr-3 shadow-black shadow-sm w-12'
+                      className='rounded-full mr-3 shadow-black shadow-sm w-14'
                     />
                   </Link>
-                  <h1 className='text-xl'>{Users.display_name}</h1>
+                  <h1 className='text-xl font-bold'>{Users.display_name}</h1>
                 </section>
               )}
             </div>
@@ -123,12 +125,12 @@ export function Sidebar() {
                 </h2>
                 <div className='space-y-1'>
                   <Link href={"/library/songs"}>
-                    <Button variant='ghost' className='w-full justify-start'>
+                    {/* <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
                         <LuMusic2 />
                         Songs
                       </span>
-                    </Button>
+                    </Button> */}
                   </Link>
                   <Link href={"/library/MadeforYou"}>
                     <Button variant='ghost' className='w-full justify-start'>
@@ -149,25 +151,23 @@ export function Sidebar() {
                 </div>
               </div>
             </div>
+            <Button
+              variant='ghost'
+              className='justify-start font-normal w-full'
+              onClick={Logout}
+            >
+              {!toggleCollapse && (
+                <span
+                  className={classNames(
+                    "flex flex-row gap-5 text-lg font-bold items-center"
+                  )}
+                >
+                  Logout <BiLogOut style={{ fontSize: "2rem" }} />
+                </span>
+              )}
+            </Button>
           </div>
         )}
-        <div className={`pl-2 py-4`}>
-          <Button
-            variant='ghost'
-            className='w-full justify-start font-normal'
-            onClick={Logout}
-          >
-            {!toggleCollapse && (
-              <span
-                className={classNames(
-                  "flex flex-row gap-5 text-lg font-bold items-center"
-                )}
-              >
-                Logout <BiLogOut style={{ fontSize: "2rem" }} />
-              </span>
-            )}
-          </Button>
-        </div>
       </div>
     </div>
   );

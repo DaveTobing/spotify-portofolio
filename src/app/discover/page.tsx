@@ -11,14 +11,17 @@ import { ModeToggle } from "@/components/darkmode";
 import axios from "axios";
 import { useEffect, useState } from "react";
 import querystring from "querystring";
-import {fetchTracks } from "@/components/api/track";
+import { fetchTracks } from "@/components/api/track";
 import { useQuery } from "@tanstack/react-query";
-import { fetchGenreByPlaylistId, fetchPlaylists } from "@/components/api/playlists";
+import {
+  fetchGenreByPlaylistId,
+  fetchPlaylists,
+} from "@/components/api/playlists";
 import { RectangleLoader, SquareLoader } from "@/components/Loader";
 // import { PlaylistGenres } from "@/data/genre";
 
 export default function MusicPage() {
-  const [getToken, setToken] = useState("");
+  const [token, setToken] = useState("");
 
   const { data: tracks, isLoading: trackIsLoading } = useQuery({
     queryKey: ["tracks"],
@@ -44,7 +47,6 @@ export default function MusicPage() {
   //   handlePlaylistLoop();
   // }, [playlists]);
 
-
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
     const code = searchParams.get("code");
@@ -53,7 +55,7 @@ export default function MusicPage() {
     const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
 
     if (code) {
-      const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
+      // const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
       if (state === null) {
         // Handle state mismatch error
         const errorParams = new URLSearchParams({
@@ -67,8 +69,8 @@ export default function MusicPage() {
         url: "https://accounts.spotify.com/api/token",
         form: {
           code: code,
-          // redirect_uri: "http://localhost:3000/discover",
-          redirect_uri: REDIRECT_URI,
+          redirect_uri: "http://localhost:3000/discover",
+          // redirect_uri: REDIRECT_URI,
           grant_type: "authorization_code",
         },
         headers: {
@@ -102,7 +104,7 @@ export default function MusicPage() {
 
   return (
     <>
-      <div className='hidden md:block'>
+      <div className='md:block'>
         <div className='border-t'>
           <div className='bg-background'>
             <div className='grid lg:grid-cols-3'>
@@ -131,7 +133,7 @@ export default function MusicPage() {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {trackIsLoading || !tracks ?(
+                          {trackIsLoading || !tracks ? (
                             <RectangleLoader />
                           ) : (
                             <div className='flex space-x-4 pb-4'>
@@ -161,7 +163,7 @@ export default function MusicPage() {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {playlistsIsLoading || !playlists ?(
+                          {playlistsIsLoading || !playlists ? (
                             <SquareLoader />
                           ) : (
                             <div className='flex space-x-4 pb-4'>
