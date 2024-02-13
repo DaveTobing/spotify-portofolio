@@ -132,14 +132,14 @@ export function Sidebar() {
                       </span>
                     </Button> */}
                   </Link>
-                  <Link href={"/library/MadeforYou"}>
+                  {/* <Link href={"/library/MadeforYou"}>
                     <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
                         <FaRegUser />
                         Made for You
                       </span>
                     </Button>
-                  </Link>
+                  </Link> */}
                   <Link href={"/library/artist"}>
                     <Button variant='ghost' className='w-full justify-start'>
                       <span className='flex gap-5 items-center'>
@@ -153,7 +153,7 @@ export function Sidebar() {
             </div>
             <Button
               variant='ghost'
-              className='justify-start font-normal w-full'
+              className='justify-start font-normal w-full absolute bottom-0'
               onClick={Logout}
             >
               {!toggleCollapse && (

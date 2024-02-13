@@ -28,10 +28,14 @@ export default function MusicPage() {
     queryFn: fetchTracks,
   });
 
+  console.log(tracks);
+
   const { data: playlists, isLoading: playlistsIsLoading } = useQuery({
     queryKey: ["playlists"],
     queryFn: fetchPlaylists,
   });
+
+  console.log(playlists);
 
   // const handlePlaylistLoop = async () => {
   //   if (playlists && playlists.length > 0) {
@@ -48,59 +52,86 @@ export default function MusicPage() {
   // }, [playlists]);
 
   useEffect(() => {
-    const searchParams = new URLSearchParams(window.location.search);
-    const code = searchParams.get("code");
-    const state = searchParams.get("state");
-    const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
-    const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+    const hash = window.location.hash;
+    let token = window.localStorage.getItem("token");
 
-    if (code) {
-      // const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
-      if (state === null) {
-        // Handle state mismatch error
-        const errorParams = new URLSearchParams({
-          error: "state_mismatch",
-        });
-        window.location.href = `/#${errorParams.toString()}`;
-        return;
-      }
-      // Convert the following code to TypeScript
-      const authOptions = {
-        url: "https://accounts.spotify.com/api/token",
-        form: {
-          code: code,
-          redirect_uri: "http://localhost:3000/discover",
-          // redirect_uri: REDIRECT_URI,
-          grant_type: "authorization_code",
-        },
-        headers: {
-          "content-type": "application/x-www-form-urlencoded",
-          Authorization: "Basic " + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
-        },
-        json: true,
-      };
+    try {
+      if (!token && hash) {
+        const hashToken = hash
+          .substring(1)
+          .split("&")
+          .find((elem) => elem.startsWith("access_token"))
+          ?.split("=")[1];
 
-      // Use `axios` or another HTTP library to make the token request
-      // and handle the response accordingly
-      axios
-        .post(authOptions.url, querystring.stringify(authOptions.form), {
-          headers: authOptions.headers,
-        })
-        .then((response) => {
-          const temp_token = response.data.access_token;
+        if (hashToken) {
+          token = hashToken;
+
           window.location.hash = "";
-          window.localStorage.setItem("token", temp_token);
-          setToken(temp_token);
-        })
-        .catch((error) => {
-          console.error("Error requesting token:", error);
-        });
 
-      // Optional: Redirect to remove the code from the URL
-      const urlWithoutCode = window.location.origin + window.location.pathname;
-      window.history.replaceState({}, document.title, urlWithoutCode);
+          // Store the token in localStorage
+          window.localStorage.setItem("token", token);
+          setToken(token);
+        }
+      }
+    } catch (error) {
+      console.error("Error saving token:", error);
     }
   }, []);
+
+  // useEffect(() => {
+  //   const searchParams = new URLSearchParams(window.location.search);
+  //   const code = searchParams.get("code");
+  //   const state = searchParams.get("state");
+  //   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
+  //   const CLIENT_SECRET = process.env.NEXT_PUBLIC_CLIENT_SECRET;
+
+  //   if (code) {
+  //     // const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
+  //     if (state === null) {
+  //       // Handle state mismatch error
+  //       const errorParams = new URLSearchParams({
+  //         error: "state_mismatch",
+  //       });
+  //       window.location.href = `/#${errorParams.toString()}`;
+  //       return;
+  //     }
+  //     // Convert the following code to TypeScript
+  //     const authOptions = {
+  //       url: "https://accounts.spotify.com/api/token",
+  //       form: {
+  //         code: code,
+  //         redirect_uri: "http://localhost:3000/discover",
+  //         // redirect_uri: REDIRECT_URI,
+  //         grant_type: "authorization_code",
+  //       },
+  //       headers: {
+  //         "content-type": "application/x-www-form-urlencoded",
+  //         Authorization: "Basic " + btoa(`${CLIENT_ID}:${CLIENT_SECRET}`),
+  //       },
+  //       json: true,
+  //     };
+
+  //     // Use `axios` or another HTTP library to make the token request
+  //     // and handle the response accordingly
+  //     axios
+  //       .post(authOptions.url, querystring.stringify(authOptions.form), {
+  //         headers: authOptions.headers,
+  //       })
+  //       .then((response) => {
+  //         const temp_token = response.data.access_token;
+  //         window.location.hash = "";
+  //         window.localStorage.setItem("token", temp_token);
+  //         setToken(temp_token);
+  //       })
+  //       .catch((error) => {
+  //         console.error("Error requesting token:", error);
+  //       });
+
+  //     // Optional: Redirect to remove the code from the URL
+  //     const urlWithoutCode = window.location.origin + window.location.pathname;
+  //     window.history.replaceState({}, document.title, urlWithoutCode);
+  //   }
+  // }, []);
 
   return (
     <>

@@ -9,22 +9,23 @@ import { fetchMadeforYouPlaylists } from "@/components/api/playlists";
 import { PlaylistHolder } from "@/components/Playlist-holder";
 
 const Page = () => {
-  const { data: MadeforYouPlaylst, isLoading: MadeforYouPlaylstIsLoading } = useQuery({
-    queryKey: ["MadeforYouPlaylst"],
-    queryFn: fetchMadeforYouPlaylists,
-  });
+  const { data: MadeforYouPlaylst, isLoading: MadeforYouPlaylstIsLoading } =
+    useQuery({
+      queryKey: ["MadeforYouPlaylst"],
+      queryFn: fetchMadeforYouPlaylists,
+    });
 
   return (
     <>
-      <div className='hidden md:block'>
+      <div className=''>
         <div className='border-t'>
           <div className='bg-background'>
             <div className='grid lg:grid-cols-3'>
               <div className='col-span-3 lg:col-span-4 lg:border-l'>
                 <div className='h-full px-4 py-6 lg:px-8'>
-                  <Tabs defaultValue='music' className='h-full space-y-6'>
+                  <Tabs className='h-full space-y-6 '>
                     <div className='space-between flex items-center'>
-                      <div className='ml-auto mr-4'>
+                      <div className=''>
                         <ModeToggle />
                       </div>
                     </div>
@@ -45,21 +46,20 @@ const Page = () => {
                       <Separator className='my-4' />
                       <div className='relative'>
                         <ScrollArea>
-                          {!MadeforYouPlaylstIsLoading &&
-                            MadeforYouPlaylst && (
-                              <div className='flex space-x-4 pb-4'>
-                                {MadeforYouPlaylst.map((playlist) => (
-                                  <PlaylistHolder
-                                    key={playlist.id}
-                                    playlists={[playlist]}
-                                    className='w-[250px]'
-                                    aspectRatio='square'
-                                    width={250}
-                                    height={330}
-                                  />
-                                ))}
-                              </div>
-                            )}
+                          {!MadeforYouPlaylstIsLoading && MadeforYouPlaylst && (
+                            <div className='flex space-x-4 pb-4'>
+                              {MadeforYouPlaylst.map((playlist) => (
+                                <PlaylistHolder
+                                  key={playlist.id}
+                                  playlists={[playlist]}
+                                  className='w-[250px]'
+                                  aspectRatio='square'
+                                  width={250}
+                                  height={330}
+                                />
+                              ))}
+                            </div>
+                          )}
                           <ScrollBar orientation='horizontal' />
                         </ScrollArea>
                       </div>
