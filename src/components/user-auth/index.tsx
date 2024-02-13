@@ -4,9 +4,9 @@ import { FaSpotify } from "react-icons/fa6";
 
 const Login = () => {
   const CLIENT_ID = process.env.NEXT_PUBLIC_CLIENT_ID;
-  const REDIRECT_URI = "http://localhost:3000/discover";
+  // const REDIRECT_URI = "http://localhost:3000/discover";
   const REDIRECT_URI = "http://portofoliofy.vercel.app/discover";
-  // const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
+  const AUTH_ENDPOINT = "https://accounts.spotify.com/authorize";
   const RESPONSE_TYPE = "token";
 
   const startSpotifyLoginServer = async () => {
